@@ -15,8 +15,8 @@ import subprocess
 import sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-REMO = r"C:\Users\pc\Videos\animasi\kartun-3d-shorts"
-CHROME = r"C:/Program Files/Google/Chrome/Application/chrome.exe"
+REMO = os.environ.get("REMO_DIR", os.path.join(os.getcwd(), "kartun-3d-shorts"))
+CHROME = os.environ.get("CHROME_PATH")
 CHUNK = 1800
 
 n = int(sys.argv[1])
@@ -42,7 +42,7 @@ def frames(p):
 def remotion(a, b, dst):
     env = dict(os.environ, TEMP=os.path.join(REMO, ".remotion_tmp"), TMP=os.path.join(REMO, ".remotion_tmp"))
     return subprocess.run(["npx", "remotion", "render", "src/index.ts", COMP, dst, f"--frames={a}-{b}", "--codec", "h264", "--crf", "18",
-                           "--muted", "--gl", "angle", "--browser-executable", CHROME, "--concurrency", "3", "--log", "error"],
+                           "--muted", "--gl", "angle", "--concurrency", "3", "--log", "error"] + (["--browser-executable", CHROME] if CHROME else []),
                           cwd=REMO, env=env, shell=True)
 
 

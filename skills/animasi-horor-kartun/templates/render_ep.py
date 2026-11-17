@@ -16,8 +16,8 @@ ap = argparse.ArgumentParser()
 ap.add_argument("ep")
 ap.add_argument("comp")
 ap.add_argument("hasil")
-ap.add_argument("--remo", default=r"C:\Users\pc\Videos\animasi\kartun-3d-shorts")
-ap.add_argument("--chrome", default=r"C:/Program Files/Google/Chrome/Application/chrome.exe")
+ap.add_argument("--remo", default=os.environ.get("REMO_DIR", os.path.join(os.getcwd(), "kartun-3d-shorts")))
+ap.add_argument("--chrome", default=os.environ.get("CHROME_PATH"))
 ap.add_argument("--bagian", default=None)
 ap.add_argument("--sambung", action="store_true")
 ap.add_argument("--chunk", type=int, default=1800)
@@ -54,7 +54,7 @@ def render(only=None):
         tmp = os.path.join(PARTS, f"_tmp_{i:02d}.mp4")
         print(f"render part_{i:02d} frame {a}-{b} ...", flush=True)
         r = subprocess.run(["npx", "remotion", "render", "src/index.ts", A.comp, tmp, f"--frames={a}-{b}", "--codec", "h264", "--crf", "18",
-                            "--muted", "--gl", "angle", "--browser-executable", A.chrome, "--concurrency", "3", "--log", "error"],
+                            "--muted", "--gl", "angle", "--concurrency", "3", "--log", "error"] + (["--browser-executable", A.chrome] if A.chrome else []),
                            cwd=A.remo, env=env, shell=True)
         n = frames(tmp) if os.path.exists(tmp) else -1
         if r.returncode != 0 or n != want:

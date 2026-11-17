@@ -38,7 +38,7 @@ Pose lengan: `turun`, `dadah` (melambai), `takut` (tangan di dada), `senter` (me
 cd <proyek>/tokoh
 <remotion>/node_modules/.bin/esbuild lembar.ts --bundle --format=iife --outfile=lembar.js
 echo ^<html^>^<body style="margin:0"^>^<script src="lembar.js"^>^</script^>^</body^>^</html^> > lembar.html
-"C:/Program Files/Google/Chrome/Application/chrome.exe" --headless=new --disable-gpu --screenshot=<abs>/lembar_tokoh.png --window-size=2400,1560 file:///<abs>/lembar.html
+"$CHROME_PATH" --headless=new --disable-gpu --screenshot=<abs>/lembar_tokoh.png --window-size=2400,1560 file:///<abs>/lembar.html
 ```
 Buka PNG dengan Read. Lembar ini juga yang dikirim ke user saat mengusulkan tokoh baru.
 

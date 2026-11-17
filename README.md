@@ -29,6 +29,9 @@ Skill Claude Code **`animasi-horor-kartun`**: membuat video animasi horor kartun
    - "buat versi Shorts 60 detik dari episode 1"
    - "tambahkan tokoh baru: sheriff kota, suara pria berat"
 
+## Dipakai di AI lain
+Selain Claude Code, skill ini bisa dipakai agen AI lain (Codex, Cursor, Gemini, dll.). Mulai dari `skills/animasi-horor-kartun/AGENTS.md` (ringkas dan lintas-AI), lalu `SKILL.md` dan `references/` untuk detailnya. Lokasi komputer diatur lewat variabel `REMO_DIR`, `SUARA_PY`, dan `CHROME_PATH` (lihat `references/setup.md`).
+
 ## Struktur
 ```
 skills/animasi-horor-kartun/

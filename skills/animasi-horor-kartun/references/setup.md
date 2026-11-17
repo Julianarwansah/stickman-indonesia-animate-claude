@@ -1,16 +1,25 @@
 # Setup (sekali per komputer)
 
-Di komputer user (Windows 11, laptop CPU + AMD Radeon terintegrasi) semua ini **sudah terpasang** per 2026-11. Baca hanya kalau pindah komputer atau sesuatu hilang.
+Langkah ini dijalankan sekali per komputer. Contoh perintah memakai Windows (PowerShell/cmd); di macOS/Linux ganti `\` dengan `/`, `py -3.11` dengan `python3.11`, dan `xcopy` dengan `cp -r`.
+
+## Variabel lokasi (dibaca semua skrip)
+| Variabel | Isi | Contoh |
+|---|---|---|
+| `REMO_DIR` | proyek Remotion (cartoon-3d-shorts) | `C:\proyek\kartun-3d-shorts` |
+| `SUARA_PY` | python venv Supertonic | `C:\proyek\lab-suara\venv_supertonic\Scripts\python.exe` |
+| `CHROME_PATH` | (opsional) Chrome untuk render; kosong = Chrome bawaan Remotion | `C:\Program Files\Google\Chrome\Application\chrome.exe` |
+
+Atur sekali di shell atau di pengaturan agen Anda. Kalau `REMO_DIR` kosong, skrip mencari `./kartun-3d-shorts` di folder kerja.
 
 ## Kebutuhan
-- Node.js 24, Python 3.11 (untuk Supertonic) + Python lain untuk skrip biasa, Google Chrome di `C:/Program Files/Google/Chrome/Application/chrome.exe`.
+- Node.js 24, Python 3.11 (untuk Supertonic) + Python lain untuk skrip biasa, Google Chrome (atau Chromium) untuk render.
 - ffmpeg **dengan rubberband** (`ffmpeg -filters | grep rubberband`); build "full" dari winget/gyan punya. Tanpa rubberband, pergeseran nada suara & tempo efek tidak jalan.
 - Pillow (`pip install pillow`) untuk lembar kontak.
 
 ## 1. Proyek Remotion (dunia 3D + kartu tokoh)
 ```
-git clone https://github.com/ryanmhildan/cartoon-3d-shorts C:\Users\pc\Videos\animasi\kartun-3d-shorts
-cd C:\Users\pc\Videos\animasi\kartun-3d-shorts
+git clone https://github.com/ryanmhildan/cartoon-3d-shorts <REMO_DIR>
+cd <REMO_DIR>
 npm install            # BUKAN npm ci: lock file repo tidak sinkron
 ```
 - Model Kenney (rumah/pinus/lampu) sudah ada di `public/bridge/kenney/`.
@@ -38,14 +47,14 @@ echo {"private":true} > package.json
 set PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=1 && npm install playwright
 ```
 Arahkan mesin ke Chrome yang terpasang (tanpa unduh Chromium) — ganti di `engine/render.js` dan `engine/beats.js`:
-`chromium.launch()` → `chromium.launch({executablePath:process.env.CHROME||'C:/Program Files/Google/Chrome/Application/chrome.exe'})`.
+`chromium.launch()` → `chromium.launch({executablePath:process.env.CHROME_PATH||undefined})`.
 Untuk klip potret, di `engine/beats.js` sesudah `await p.evaluate(()=>document.fonts.ready);` tambahkan
 `const sz=await p.evaluate(()=>({W:document.getElementById('stage').offsetWidth,H:document.getElementById('stage').offsetHeight}));await p.setViewportSize({width:sz.W,height:sz.H});`
 (`render.js` sudah menyesuaikan sendiri). Salin `templates/motion/buat_klip.py` ke `<proyek>/motion/`. Jalankan engine dengan `NODE_PATH=<proyek>/motion/node_modules`.
 
 ## 3. Suara (Supertonic 3, supertone-oss-archive/supertonic-py)
 ```
-cd C:\Users\pc\lab-suara
+cd <folder lab suara>
 py -3.11 -m venv venv_supertonic
 venv_supertonic\Scripts\python.exe -m pip install supertonic
 ```

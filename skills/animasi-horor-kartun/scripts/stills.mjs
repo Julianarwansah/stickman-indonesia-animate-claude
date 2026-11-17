@@ -11,7 +11,7 @@ const { renderStill, selectComposition } = await import("@remotion/renderer");
 const [id, prefix, frames, scale = "0.5"] = process.argv.slice(2);
 if (!id || !prefix || !frames) { console.log("usage: node scripts/stills.mjs <CompositionId> <outPrefix> <f,f,...> [scale]"); process.exit(1); }
 fs.mkdirSync(path.dirname(path.resolve(prefix)), { recursive: true });
-const browserExecutable = "C:/Program Files/Google/Chrome/Application/chrome.exe";
+const browserExecutable = process.env.CHROME_PATH || undefined; // kosong = Chrome bawaan Remotion
 const chromiumOptions = { gl: "angle" };
 const serveUrl = await bundle({ entryPoint: path.resolve("src/index.ts"), publicDir: path.resolve("public") });
 const composition = await selectComposition({ serveUrl, id, browserExecutable, chromiumOptions });

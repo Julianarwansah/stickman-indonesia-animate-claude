@@ -50,7 +50,7 @@ Pilih di `format.ts` folder video (`W`, `H`); kartu tokoh, tinta, lensa, salju, 
 ## Alur kerja
 
 ### 0. Setup (sekali per komputer)
-Ikuti `references/setup.md`. Di komputer user semuanya sudah terpasang (2026-11): Remotion di `C:\Users\pc\Videos\animasi\kartun-3d-shorts`, proyek di `C:\Users\pc\Videos\animasi\horor-usa`, Supertonic di `C:\Users\pc\lab-suara\venv_supertonic`.
+Ikuti `references/setup.md`. Lokasi diatur lewat variabel lingkungan (tabel di setup.md): `REMO_DIR` (proyek Remotion), `CHROME_PATH` (opsional), dan `SUARA_PY` (python venv Supertonic). Tidak ada path komputer yang ditulis di skrip.
 
 ### 1. Naskah (`<proyek>/naskah/<ep>.json`)
 Format = `examples/ep1/ep1.json`: daftar `baris` berisi `id`, `scene`, `who` (narator/jake/emily/miller/psiko/operator/null), `emo` (netral, senang, takut, teriak, sedih, seram, bisik, marah), `text`, opsional `jeda` (detik hening sesudahnya untuk aksi/suasana), `mg` (sisipan), `dur` (untuk baris tanpa teks).
@@ -62,7 +62,7 @@ Format = `examples/ep1/ep1.json`: daftar `baris` berisi `id`, `scene`, `who` (na
 
 ### 2. Suara → timeline
 ```
-C:\Users\pc\lab-suara\venv_supertonic\Scripts\python.exe templates\suara\buat_suara.py naskah\<ep>.json <ep>
+$SUARA_PY templates/suara/buat_suara.py naskah/<ep>.json <ep>
 ```
 Hasil: `<ep>/vo/*.wav`, `<ep>/timeline.json` (frame mulai/selesai tiap baris + bukaan mulut per frame), `<ep>/suara_vo.wav`. Ada 1,5 dtk pembuka (angin) sebelum baris pertama. Cek total menit yang dicetak; kurang/lebih → ubah naskah/jeda dan jalankan lagi (baris yang sama diambil dari cache). Tokoh baru: tambahkan di `TOKOH` (`suara.py`) dan audisi dengan `audisi_tokoh.py`.
 
@@ -79,7 +79,7 @@ Hasil: `<ep>/vo/*.wav`, `<ep>/timeline.json` (frame mulai/selesai tiap baris + b
 Tulis isyarat efek (`examples/ep1/sfx_ep1.py` sebagai pola), lalu `python templates/suara/mix.py <ep> <isyarat>.py` → `<ep>/mix.wav`. Target -16 LUFS, puncak ≈ -4,4 dBFS (sudah otomatis). Katalog id efek yang bagus: `references/suara-sfx.md`.
 
 ### 6. Render, cek, kirim
-1. `python templates/render_ep.py <ep> <CompId> video/<nama>.mp4 --bagian=0` → menit pertama; pasang suara 60 dtk dan kirim ke user (SendUserFile).
+1. `python templates/render_ep.py <ep> <CompId> video/<nama>.mp4 --bagian=0` → menit pertama; pasang suara 60 dtk dan kirim file ke user.
 2. User setuju → `python templates/render_ep.py <ep> <CompId> video/<nama>.mp4` (jalankan di latar belakang; ±6–7 menit per potongan di laptop user).
 3. `python scripts/qa_video.py video/<nama>.mp4 <ep>/timeline.json` + `lembar_kontak.py video ...` → baca hasilnya sendiri; layar hitam/diam yang wajar ada di `references/render-qa.md`.
 4. `python templates/suara/srt.py <ep>`, tulis `youtube.txt` (pola `examples/ep1/youtube.txt`), kirim video + laporan pengecekan singkat.

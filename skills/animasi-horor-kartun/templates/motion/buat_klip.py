@@ -22,7 +22,7 @@ FPS = 30
 ap = argparse.ArgumentParser()
 ap.add_argument("ep")
 ap.add_argument("spek")
-ap.add_argument("--remo", default=r"C:\Users\pc\Videos\animasi\kartun-3d-shorts")
+ap.add_argument("--remo", default=os.environ.get("REMO_DIR", os.path.join(os.getcwd(), "kartun-3d-shorts")))
 ap.add_argument("--video", default="horor_ep1")
 ap.add_argument("--html", action="store_true")
 ap.add_argument("--potret", action="store_true", help="1080x1920 untuk Shorts/Reels/TikTok")
