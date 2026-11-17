@@ -1,0 +1,60 @@
+TITLE OPTIONS (pick one)
+1. The Smiling Man of Maple Hollow | Animated Horror Story
+2. He Only Follows You If You Look At Him | Horror Animation
+3. We Were Chased By a Masked Man on a Frozen Night | Animated Horror
+
+DESCRIPTION
+In Maple Hollow, Vermont, nobody locked their doors... until the night of December 14th.
+Jake and his little sister Emily missed the last bus home from the Winter Fair. The shortcut down Elm Street was supposed to take ten minutes. Then they heard footsteps in the snow behind them.
+
+An original animated horror story. All characters and events are fictional.
+
+Chapters
+0:00 Cold Open
+0:29 Chapter 1 — The Walk Home
+2:05 Chapter 2 — The Man in the Mask
+4:09 Chapter 3 — The Harbor
+5:41 Chapter 4 — The Frozen Pond
+6:50 Chapter 5 — The Porch
+
+Lock your doors tonight. Subscribe for a new horror story every week.
+
+#horrorstory #animatedhorror #scarystories #horroranimation #creepy
+
+TAGS
+horror story, animated horror story, scary story, horror animation, true scary stories animated, creepy story, masked man, winter horror, small town horror, scary stories for the night
+
+SUBTITLES
+Upload ep1/ep1_en.srt as English (CC).
+
+SOUND CREDITS (all CC0 / public domain, no attribution required; listed for reference)
+Voices: Supertonic 3 (Supertone) on-device TTS.
+Motion graphics: motion-broll engine (Barty-Bart/motion-graphics, MIT), Geist font (OFL).
+Sound effects via Lots of Sounds free sample API (CC0):
+- fs-117513 Howling Winter Wind
+- fs-135433 Creepy Horror Ambience
+- fs-141139 Low Pitched Scary Drone
+- fs-163383 Heavy Male Breathing
+- fs-164202 Coyotes Howling At Night
+- fs-168650 Creaky Door
+- fs-173439 Underwater Bubbles Loop
+- fs-175205 Scary Wood Creaking
+- fs-177242 Cinematic Impact Boom
+- fs-21409 Deep Heartbeat
+- fs-271945 Horror Stinger Stab
+- fs-328243 Message Notification Sound
+- fs-339950 Phone Dial Tones
+- fs-348248 Snow Crunch Footsteps
+- fs-384485 Phone Vibrating On Table
+- fs-443015 Walking in Snow
+- fs-465697 Owl Hooting
+- fs-513330 Horror Stinger Reveal
+- fs-522884 Ice Cracking Organic
+- fs-52906 Police Siren Loop
+- fs-553075 Foley Mechanism Light Buzz Short
+- fs-578358 Dissonant Piano Sting
+- fs-578493 Dragging Body Concrete
+- fs-735401 Ice Cracking Sound
+- fs-794610 Creaky Wood Footsteps
+- fs-9508 Water Splash
+- whoosh / impact / riser: CC0 kit from the sound-effects skill (qubodup, peoplearehappy, et al.)

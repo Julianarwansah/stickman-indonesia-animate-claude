@@ -1,0 +1,738 @@
+{
+ "judul": "The Smiling Man of Maple Hollow",
+ "catatan": "Episode 1 Horor USA. Fiksi. Bahasa Inggris (penonton AS). who: narator|jake|emily|miller|psiko|operator. emo: netral|senang|takut|teriak|sedih|seram|bisik|marah. scene: kode adegan di story.ts. jeda: detik hening sesudah baris (aksi/suasana). mg: sisipan motion-graphics.",
+ "baris": [
+  {
+   "id": "c01",
+   "scene": "intro_jalan",
+   "who": "narator",
+   "emo": "seram",
+   "text": "In Maple Hollow, Vermont... nobody locked their doors."
+  },
+  {
+   "id": "c02",
+   "scene": "intro_rumah",
+   "who": "narator",
+   "emo": "seram",
+   "text": "Not the Hendersons. Not the Parkers. Not even old Mr. Miller, who lived alone at the end of Elm Street."
+  },
+  {
+   "id": "c03",
+   "scene": "intro_topeng",
+   "who": "narator",
+   "emo": "bisik",
+   "text": "That changed on the night of December fourteenth. The night the Smiling Man came to town.",
+   "jeda": 1.2
+  },
+  {
+   "id": "t00",
+   "scene": "judul",
+   "who": null,
+   "mg": "judul",
+   "dur": 5.0
+  },
+  {
+   "id": "k1",
+   "scene": "bab1",
+   "who": null,
+   "mg": "bab:1:THE WALK HOME",
+   "dur": 3.0
+  },
+  {
+   "id": "a01",
+   "scene": "jalan_jauh",
+   "who": "narator",
+   "emo": "netral",
+   "text": "It was eleven forty-seven p.m. when Jake and Emily Carter missed the last bus home from the Winter Fair.",
+   "mg": "cap:Elm Street, Maple Hollow — 11:47 PM"
+  },
+  {
+   "id": "a02",
+   "scene": "jalan_dekat",
+   "who": "narator",
+   "emo": "netral",
+   "text": "Jake was seventeen, tired, and in charge of getting his little sister home. Emily was sixteen... and she would not stop talking."
+  },
+  {
+   "id": "a03",
+   "scene": "ngobrol_emily",
+   "who": "emily",
+   "emo": "senang",
+   "text": "Okay, admit it. I totally beat you at the ring toss."
+  },
+  {
+   "id": "a04",
+   "scene": "ngobrol_jake",
+   "who": "jake",
+   "emo": "netral",
+   "text": "You threw the ring at the guy's head, Em."
+  },
+  {
+   "id": "a05",
+   "scene": "ngobrol_emily",
+   "who": "emily",
+   "emo": "senang",
+   "text": "And it landed! That counts!"
+  },
+  {
+   "id": "a06",
+   "scene": "ngobrol_jake",
+   "who": "jake",
+   "emo": "senang",
+   "text": "It does not count.",
+   "jeda": 0.4
+  },
+  {
+   "id": "a06b",
+   "scene": "ngobrol_emily",
+   "who": "emily",
+   "emo": "bisik",
+   "text": "Hey... did you hear what Tyler said at the fair? About the Smiling Man?"
+  },
+  {
+   "id": "a06c",
+   "scene": "ngobrol_jake",
+   "who": "jake",
+   "emo": "netral",
+   "text": "Tyler also said he saw Bigfoot behind the Walmart."
+  },
+  {
+   "id": "a06d",
+   "scene": "ngobrol_emily",
+   "who": "emily",
+   "emo": "bisik",
+   "text": "He said the Smiling Man only follows you if you look at him. And once he starts following you... he never stops."
+  },
+  {
+   "id": "a06e",
+   "scene": "ngobrol_jake",
+   "who": "jake",
+   "emo": "netral",
+   "text": "Em. It's a story. Somebody made it up to scare little kids.",
+   "jeda": 0.6
+  },
+  {
+   "id": "a06f",
+   "scene": "jalan_dekat",
+   "who": "narator",
+   "emo": "seram",
+   "text": "Jake was right about one thing. Somebody did make up the story of the Smiling Man. But that didn't mean he wasn't real.",
+   "jeda": 0.8
+  },
+  {
+   "id": "a07",
+   "scene": "jalan_jauh2",
+   "who": "narator",
+   "emo": "netral",
+   "text": "The fastest way home was Elm Street. Down past the harbor, past the old houses... past Mr. Miller's place."
+  },
+  {
+   "id": "a08",
+   "scene": "miller_teras",
+   "who": "narator",
+   "emo": "seram",
+   "text": "Mr. Miller was always awake. Always on his porch. Always... watching."
+  },
+  {
+   "id": "a09",
+   "scene": "miller_cu",
+   "who": "miller",
+   "emo": "seram",
+   "text": "Evening, kids. Awful cold night to be walking alone."
+  },
+  {
+   "id": "a10",
+   "scene": "anak_canggung",
+   "who": "jake",
+   "emo": "takut",
+   "text": "Uh... evening, Mr. Miller."
+  },
+  {
+   "id": "a11",
+   "scene": "miller_cu",
+   "who": "miller",
+   "emo": "seram",
+   "text": "You two get home quick now. Don't stop. And don't talk to anybody.",
+   "jeda": 0.6
+  },
+  {
+   "id": "a12",
+   "scene": "emily_bisik",
+   "who": "emily",
+   "emo": "bisik",
+   "text": "Okay. That was the creepiest thing he has ever said. And he has said a lot of creepy things."
+  },
+  {
+   "id": "a13",
+   "scene": "ngobrol_jake",
+   "who": "jake",
+   "emo": "netral",
+   "text": "Just keep walking.",
+   "jeda": 1.4
+  },
+  {
+   "id": "k2",
+   "scene": "bab2",
+   "who": null,
+   "mg": "bab:2:THE MAN IN THE MASK",
+   "dur": 3.0
+  },
+  {
+   "id": "b01",
+   "scene": "salju_jalan",
+   "who": "narator",
+   "emo": "seram",
+   "text": "The snow was falling harder now. The streetlights hummed. And somewhere behind them... something crunched."
+  },
+  {
+   "id": "b02",
+   "scene": "kaki_jauh",
+   "who": "narator",
+   "emo": "seram",
+   "text": "One footstep. Then another. Slow. Heavy. Like someone dragging something through the snow.",
+   "jeda": 1.2
+  },
+  {
+   "id": "b03",
+   "scene": "emily_takut",
+   "who": "emily",
+   "emo": "takut",
+   "text": "Jake... do you hear that?"
+  },
+  {
+   "id": "b04",
+   "scene": "jake_tenang",
+   "who": "jake",
+   "emo": "netral",
+   "text": "It's probably just Mr. Miller.",
+   "jeda": 0.5
+  },
+  {
+   "id": "b05",
+   "scene": "hitam",
+   "who": "narator",
+   "emo": "seram",
+   "text": "It wasn't Mr. Miller.",
+   "jeda": 1.0
+  },
+  {
+   "id": "b06",
+   "scene": "psiko_jauh",
+   "who": "narator",
+   "emo": "seram",
+   "text": "At the end of the street, under the last working streetlight, stood a man in a black hood."
+  },
+  {
+   "id": "b07",
+   "scene": "psiko_wajah",
+   "who": "narator",
+   "emo": "seram",
+   "text": "His face was a white porcelain mask, cracked down one side. Someone had painted a smile on it. A big, red, stitched-up smile."
+  },
+  {
+   "id": "b08",
+   "scene": "psiko_kapak",
+   "who": "narator",
+   "emo": "bisik",
+   "text": "And in his right hand... he was holding an axe.",
+   "jeda": 1.0
+  },
+  {
+   "id": "b09",
+   "scene": "emily_takut",
+   "who": "emily",
+   "emo": "takut",
+   "text": "Is that... a Halloween thing? Like a prank?"
+  },
+  {
+   "id": "b10",
+   "scene": "jake_takut",
+   "who": "jake",
+   "emo": "takut",
+   "text": "Em. It's December.",
+   "jeda": 0.4
+  },
+  {
+   "id": "b11",
+   "scene": "psiko_miring",
+   "who": "narator",
+   "emo": "seram",
+   "text": "The man tilted his head. Slowly. Like he was trying to remember their faces."
+  },
+  {
+   "id": "b12",
+   "scene": "psiko_langkah",
+   "who": "narator",
+   "emo": "bisik",
+   "text": "Then he took one step forward.",
+   "jeda": 0.3
+  },
+  {
+   "id": "b13",
+   "scene": "jake_teriak",
+   "who": "jake",
+   "emo": "teriak",
+   "text": "Run!",
+   "jeda": 1.4
+  },
+  {
+   "id": "b14",
+   "scene": "lari_jalan",
+   "who": "narator",
+   "emo": "netral",
+   "text": "They ran. Past the bakery, past the church, past houses where every single window was dark.",
+   "jeda": 2.6
+  },
+  {
+   "id": "b15",
+   "scene": "lari_dekat",
+   "who": "emily",
+   "emo": "teriak",
+   "text": "Jake, call somebody! Call Mom!"
+  },
+  {
+   "id": "b16",
+   "scene": "lari_dekat",
+   "who": "jake",
+   "emo": "takut",
+   "text": "I'm trying! There's no signal!",
+   "jeda": 0.4
+  },
+  {
+   "id": "b17",
+   "scene": "hp_pesan",
+   "who": "narator",
+   "emo": "netral",
+   "text": "Jake's phone buzzed. A text from Mom... sent twenty minutes ago.",
+   "mg": "hp:ibu"
+  },
+  {
+   "id": "b18",
+   "scene": "hp_pesan",
+   "who": "narator",
+   "emo": "seram",
+   "text": "Where are you two? The news said a patient escaped from Ravenwood Hospital. Do not walk home.",
+   "jeda": 0.8
+  },
+  {
+   "id": "b19",
+   "scene": "jake_tengok",
+   "who": "narator",
+   "emo": "netral",
+   "text": "Jake looked back."
+  },
+  {
+   "id": "b20",
+   "scene": "psiko_jalan",
+   "who": "narator",
+   "emo": "seram",
+   "text": "The man wasn't running. He was walking. Calm. Patient... like he already knew where they were going.",
+   "jeda": 1.4
+  },
+  {
+   "id": "b21",
+   "scene": "lari_dekat",
+   "who": "narator",
+   "emo": "netral",
+   "text": "But they had one advantage. They knew Maple Hollow. Every alley. Every shortcut. Every fence with a hole in it."
+  },
+  {
+   "id": "b22",
+   "scene": "lari_dekat",
+   "who": "jake",
+   "emo": "takut",
+   "text": "The harbor! We can lose him at the harbor!"
+  },
+  {
+   "id": "b23",
+   "scene": "lari_dekat",
+   "who": "jake",
+   "emo": "takut",
+   "text": "Em, keep the flashlight down. Don't let him see the light!"
+  },
+  {
+   "id": "b24",
+   "scene": "lari_dekat",
+   "who": "emily",
+   "emo": "takut",
+   "text": "Okay... okay!",
+   "jeda": 1.2
+  },
+  {
+   "id": "k3",
+   "scene": "bab3",
+   "who": null,
+   "mg": "bab:3:THE HARBOR",
+   "dur": 3.0
+  },
+  {
+   "id": "c01h",
+   "scene": "dermaga_lari",
+   "who": "narator",
+   "emo": "netral",
+   "text": "They cut down to the harbor and ducked behind a row of old shipping crates, frozen solid with ice.",
+   "mg": "cap:Maple Hollow Harbor — 11:58 PM"
+  },
+  {
+   "id": "c02h",
+   "scene": "peti_anak",
+   "who": "emily",
+   "emo": "bisik",
+   "text": "Is he gone? Jake... is he gone?"
+  },
+  {
+   "id": "c03h",
+   "scene": "peti_anak",
+   "who": "jake",
+   "emo": "bisik",
+   "text": "Shh. Don't move. Don't breathe.",
+   "jeda": 1.0
+  },
+  {
+   "id": "c03i",
+   "scene": "peti_anak_dekat",
+   "who": "narator",
+   "emo": "bisik",
+   "text": "Jake counted his heartbeats. Ten. Twenty. Thirty. Maybe he was gone. Maybe they had lost him.",
+   "jeda": 1.0
+  },
+  {
+   "id": "c04h",
+   "scene": "peti_kaki",
+   "who": "narator",
+   "emo": "bisik",
+   "text": "Crunch. Crunch. Crunch.",
+   "jeda": 1.4
+  },
+  {
+   "id": "c05h",
+   "scene": "peti_psiko",
+   "who": "narator",
+   "emo": "seram",
+   "text": "The footsteps came closer. Then they stopped. Right on the other side of the crates."
+  },
+  {
+   "id": "c06h",
+   "scene": "peti_anak_dekat",
+   "who": "narator",
+   "emo": "bisik",
+   "text": "They could hear him breathing. Slow, wet breaths behind the mask.",
+   "jeda": 1.4
+  },
+  {
+   "id": "c07h",
+   "scene": "hp_getar",
+   "who": "narator",
+   "emo": "netral",
+   "text": "And then... Jake's phone buzzed.",
+   "jeda": 0.8
+  },
+  {
+   "id": "c08h",
+   "scene": "psiko_atas_peti",
+   "who": "psiko",
+   "emo": "bisik",
+   "text": "Found you.",
+   "jeda": 1.0
+  },
+  {
+   "id": "c09h",
+   "scene": "jake_teriak",
+   "who": "jake",
+   "emo": "teriak",
+   "text": "Go! Go! Go!",
+   "jeda": 1.4
+  },
+  {
+   "id": "c10h",
+   "scene": "dermaga_kabur",
+   "who": "narator",
+   "emo": "netral",
+   "text": "They ran out onto the pier, toward the old ship. Jake dialed nine-one-one with shaking fingers.",
+   "jeda": 1.0
+  },
+  {
+   "id": "c11h",
+   "scene": "telp_911",
+   "who": "operator",
+   "emo": "netral",
+   "text": "Nine-one-one, what is your emergency?",
+   "mg": "telp"
+  },
+  {
+   "id": "c12h",
+   "scene": "jake_telp",
+   "who": "jake",
+   "emo": "teriak",
+   "text": "There's a man with an axe! He's chasing us! We're at the harbor on Elm Street!"
+  },
+  {
+   "id": "c13h",
+   "scene": "telp_911",
+   "who": "operator",
+   "emo": "netral",
+   "text": "Okay. Stay calm. Officers are on the way. They're about twelve minutes out.",
+   "mg": "telp"
+  },
+  {
+   "id": "c14h",
+   "scene": "emily_panik",
+   "who": "emily",
+   "emo": "teriak",
+   "text": "Twelve minutes? Jake, we don't have twelve minutes!",
+   "jeda": 0.5
+  },
+  {
+   "id": "c15h",
+   "scene": "psiko_dermaga",
+   "who": "narator",
+   "emo": "seram",
+   "text": "Behind them, the Smiling Man stepped onto the pier. The old boards groaned under his boots."
+  },
+  {
+   "id": "c16h",
+   "scene": "dermaga_lebar",
+   "who": "narator",
+   "emo": "netral",
+   "text": "There was only one way out. Back across the frozen pond... toward Mr. Miller's house.",
+   "jeda": 1.4
+  },
+  {
+   "id": "k4",
+   "scene": "bab4",
+   "who": null,
+   "mg": "bab:4:THE FROZEN POND",
+   "dur": 3.0
+  },
+  {
+   "id": "d01",
+   "scene": "kolam_lebar",
+   "who": "narator",
+   "emo": "netral",
+   "text": "Everybody in Maple Hollow knew the rule. Never cross the pond after the ice cutters had been out."
+  },
+  {
+   "id": "d02",
+   "scene": "kolam_es",
+   "who": "narator",
+   "emo": "seram",
+   "text": "The ice was cut into blocks. Thin in some places. Gone in others."
+  },
+  {
+   "id": "d02b",
+   "scene": "kolam_anak",
+   "who": "jake",
+   "emo": "takut",
+   "text": "There's no other way, Em. Whatever happens, do not stop running."
+  },
+  {
+   "id": "d03",
+   "scene": "kolam_anak",
+   "who": "emily",
+   "emo": "takut",
+   "text": "Jake, the ice... it's cracking!"
+  },
+  {
+   "id": "d04",
+   "scene": "kolam_anak",
+   "who": "jake",
+   "emo": "takut",
+   "text": "Step where I step. Just step where I step!",
+   "jeda": 0.4
+  },
+  {
+   "id": "d05",
+   "scene": "kolam_lari",
+   "who": "narator",
+   "emo": "netral",
+   "text": "They ran. The ice groaned. Cracks shot out under their feet like lightning.",
+   "jeda": 2.2
+  },
+  {
+   "id": "d06",
+   "scene": "kolam_psiko",
+   "who": "narator",
+   "emo": "seram",
+   "text": "And behind them, the Smiling Man followed. Heavier. Slower.",
+   "jeda": 0.4
+  },
+  {
+   "id": "d07",
+   "scene": "kolam_psiko_berhenti",
+   "who": "narator",
+   "emo": "bisik",
+   "text": "Halfway across, he stopped. He looked down.",
+   "jeda": 1.4
+  },
+  {
+   "id": "d08",
+   "scene": "kolam_retak",
+   "who": "narator",
+   "emo": "bisik",
+   "text": "Crack.",
+   "jeda": 1.2
+  },
+  {
+   "id": "d09",
+   "scene": "kolam_tenggelam",
+   "who": "narator",
+   "emo": "seram",
+   "text": "The ice gave way. And the Smiling Man dropped into the black water without a sound.",
+   "jeda": 2.0
+  },
+  {
+   "id": "d10",
+   "scene": "kolam_anak_lihat",
+   "who": "emily",
+   "emo": "takut",
+   "text": "Is he... is he gone?",
+   "jeda": 0.6
+  },
+  {
+   "id": "d11",
+   "scene": "kolam_air",
+   "who": "narator",
+   "emo": "bisik",
+   "text": "The water rippled. Then it went still. Nothing came back up.",
+   "jeda": 2.0
+  },
+  {
+   "id": "d12",
+   "scene": "kolam_anak_lihat",
+   "who": "emily",
+   "emo": "sedih",
+   "text": "He's gone, Jake. He's really gone."
+  },
+  {
+   "id": "d13",
+   "scene": "kolam_anak_lihat",
+   "who": "jake",
+   "emo": "sedih",
+   "text": "Come on. Let's get out of here.",
+   "jeda": 1.0
+  },
+  {
+   "id": "k5",
+   "scene": "bab5",
+   "who": null,
+   "mg": "bab:5:THE PORCH",
+   "dur": 3.0
+  },
+  {
+   "id": "e01",
+   "scene": "miller_pintu",
+   "who": "narator",
+   "emo": "netral",
+   "text": "Mr. Miller was waiting on his porch, holding the door open."
+  },
+  {
+   "id": "e02",
+   "scene": "miller_cu2",
+   "who": "miller",
+   "emo": "marah",
+   "text": "In. Both of you. Now!",
+   "jeda": 0.6
+  },
+  {
+   "id": "e03",
+   "scene": "sirene",
+   "who": "narator",
+   "emo": "netral",
+   "text": "Sirens finally echoed down Elm Street. Red and blue lights flashed across the snow.",
+   "jeda": 1.4
+  },
+  {
+   "id": "e04",
+   "scene": "miller_cu2",
+   "who": "miller",
+   "emo": "sedih",
+   "text": "I saw him following you. Saw him from my window. That's why I told you not to stop."
+  },
+  {
+   "id": "e05",
+   "scene": "anak_lega",
+   "who": "jake",
+   "emo": "sedih",
+   "text": "We thought... we thought you were the creepy one."
+  },
+  {
+   "id": "e06",
+   "scene": "miller_senyum",
+   "who": "miller",
+   "emo": "senang",
+   "text": "Son, I'm eighty-one years old. I'm allowed to be a little creepy.",
+   "jeda": 0.8
+  },
+  {
+   "id": "e06b",
+   "scene": "anak_lega",
+   "who": "narator",
+   "emo": "netral",
+   "text": "And for the first time all night... Emily laughed."
+  },
+  {
+   "id": "e06c",
+   "scene": "anak_lega",
+   "who": "emily",
+   "emo": "senang",
+   "text": "Thank you, Mr. Miller. Really.",
+   "jeda": 0.8
+  },
+  {
+   "id": "e07",
+   "scene": "kolam_pagi",
+   "who": "narator",
+   "emo": "netral",
+   "text": "The police searched the pond until sunrise. They found the axe. They found the hole in the ice."
+  },
+  {
+   "id": "e08",
+   "scene": "berita",
+   "who": "narator",
+   "emo": "seram",
+   "text": "But they never found the man.",
+   "jeda": 1.6,
+   "mg": "berita"
+  },
+  {
+   "id": "e08b",
+   "scene": "berita",
+   "who": "narator",
+   "emo": "seram",
+   "text": "Ravenwood Hospital never released the patient's real name. The night staff only ever called him one thing... the Smiling Man.",
+   "jeda": 1.0
+  },
+  {
+   "id": "e09",
+   "scene": "hp_malam",
+   "who": "narator",
+   "emo": "netral",
+   "text": "Three nights later, Jake's phone buzzed. A message from an unknown number.",
+   "mg": "hp:asing",
+   "jeda": 2.0
+  },
+  {
+   "id": "e10",
+   "scene": "emily_hp",
+   "who": "emily",
+   "emo": "takut",
+   "text": "Jake... who is that from?",
+   "jeda": 1.6
+  },
+  {
+   "id": "e11",
+   "scene": "jendela",
+   "who": "narator",
+   "emo": "bisik",
+   "text": "In Maple Hollow, Vermont... everybody locks their doors now."
+  },
+  {
+   "id": "e12",
+   "scene": "akhir_topeng",
+   "who": "narator",
+   "emo": "seram",
+   "text": "But a lock only works... if he's still outside.",
+   "jeda": 3.5
+  }
+ ]
+}
