@@ -13,7 +13,7 @@ Pemetaan terkunci (`TOKOH`):
 | psiko | M2 | -3,5 st | 0,85 |
 | operator | F5 | 0 | 1,0 |
 
-Emosi (`EMOSI`: nada, tempo, dB, efek): netral 0/1,0; senang +1,5/1,07/+1 dB; takut +2/1,12/vibrato 6,5 Hz; teriak +3,5/1,18/+5 dB/kompresor; sedih -1,2/0,86/-2 dB; seram -2/0,84/lowpass; bisik -3/0,80/-5 dB/EQ tipis; marah -0,5/1,05/+3 dB.
+Emosi (`EMOSI`: nada, tempo, dB, efek): netral 0/1,0; senang +1,5/1,07/+1 dB; takut +2/1,12/vibrato 6,5 Hz **kedalaman 0,05** (0,18 terdengar seperti robot pada suara perempuan, dicoba 2026-11-17); teriak +3,5/1,18/+5 dB/kompresor; sedih -1,2/0,86/-2 dB; seram -2/0,84/lowpass; bisik -3/0,80/-5 dB/EQ tipis; marah -0,5/1,05/+3 dB.
 
 **Anti-datar** (permintaan user "ada nadanya, tidak datar seperti AI"): tiap baris dipecah per kalimat, tiap kalimat disintesis sendiri dengan nada/tempo sendiri — tanya +0,9 st, seru +0,6 st & 1,04x, kalimat terakhir -0,7 st & 0,95x (penutup dramatis), kalimat ≤ 3 kata 0,92x + jeda 0,42 dtk, `...` 0,95x + jeda 0,5 dtk, kalimat berurutan selang-seling +0,45/-0,25 st. Lalu tiap baris: `loudnorm -19 LUFS` → dB emosi → `alimiter 0,89` (tidak pernah terpotong). Nada & tempo digeser dengan ffmpeg `rubberband` (formant dijaga). Tempo < 0,7 (batas Supertonic) disintesis di 0,7 lalu diperlambat rubberband.
 
@@ -59,3 +59,36 @@ Cari yang lain: `curl -G https://api.lotsofsounds.com/api/v1/sounds/sample --dat
 - Suasana di `bus_amb` turun 5 dB saat ada dialog; efek turun 2 dB.
 - Pasang efek di kata kuncinya dengan `word(id, "kata")` atau posisi `t0(id, frac)`.
 - Hasil: `loudnorm I=-16 TP=-4.5` + limiter → terukur -16,5 LUFS, puncak -4,4 dBFS di MP4 akhir.
+
+## Sinkron setelah ubah suara (wajib)
+Mengubah emosi atau efek suara mengubah durasi klip, lalu timeline dan video yang sudah dirender tidak sinkron (Short 4 bergeser 0,3 dtk). Urutan yang aman:
+1. Simpan `timeline.json` lama (atau salin `<proyek_video>/timeline.json` yang dipakai Remotion).
+2. Jalankan `buat_suara.py` untuk baris yang berubah.
+3. `python templates/suara/samakan_durasi.py <ep> <timeline_lama.json> <naskah.json>` — memotong/memberi hening baris yang berubah sampai durasinya sama dengan yang lama.
+4. Jalankan `buat_suara.py` sekali lagi, cek `total` sama dengan lama, lalu `mix.py` dan `render_potret.py <ep> --sambung` (pasang audio tanpa render ulang video).
+
+## Loudness -14 LUFS (Shorts)
+`mix.py` memakai `loudnorm TP=-1.0` dan `alimiter 0,89`. Dengan batas true peak -4,5 dBTP, hasilnya hanya -16 LUFS (tidak tercapai). Dengan -1 dBTP, mix Shorts mencapai -14,2 sampai -14,5 LUFS. Target -15 atau lebih rendah pada Shorts tidak perlu batas ini.
+
+## Katalog id tambahan (dari `examples/ep1/sfx_ep1.py`, dipakai di Shorts 2026-11)
+| Id | Bunyi | Dipakai untuk |
+|---|---|---|
+| fs-164202 | coyote | suara jauh di malam |
+| fs-163383 | napas | bersembunyi, ngos-ngosan |
+| fs-168650 | pintu berderit | pintu dibuka |
+| fs-173439 | gelembung | air di bawah es |
+| fs-175205 | kayu berderit | dermaga, kapal |
+| fs-177242 | hentakan judul | awal video |
+| fs-21409 | detak jantung | ketegangan |
+| fs-271945 | stinger | penampakan topeng, kata kunci |
+| fs-328243 | bunyi notifikasi ponsel | pesan masuk |
+| fs-339950 | tekan tombol 9-1-1 | panggilan darurat |
+| fs-384485 | ponsel bergetar | getar ponsel, telepon berdering (dua kali) |
+| fs-465697 | burung hantu | malam di luar kota |
+| fs-522884 | es pecah besar | retak keras |
+| fs-52906 | sirene | suasana polisi |
+| fs-578358 | dentuman / ketukan | ketukan pintu, ketukan es |
+| fs-735401 | es retak | retak kecil |
+| fs-794610 | lari di papan kayu | lari di dermaga |
+| fs-9508 | cipratan air | jatuh ke air |
+Id di `sfx_cache/` hanya angka. Nama didapat dari komentar `sfx_ep1.py` di repo ini; API Lots of Sounds untuk metadata butuh API key.

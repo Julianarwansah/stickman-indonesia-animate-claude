@@ -41,6 +41,8 @@ Pilih di `format.ts` folder video (`W`, `H`); kartu tokoh, tinta, lensa, salju, 
 | `templates/suara/` | `suara.py`, `buat_suara.py`, `audisi_tokoh.py`, `mix.py`, `srt.py` |
 | `templates/motion/buat_klip.py` | judul, kartu bab, ponsel, 911, berita (mesin motion-broll) |
 | `templates/render_ep.py` | render per potongan + sambung + pasang suara |
+| `templates/render_potret.py` | render Shorts potret per potongan (`--frames`, `--bagian`, `--sambung`) |
+| `templates/suara/samakan_durasi.py` | samakan durasi klip baru dengan timeline lama sebelum mux |
 | `templates/branding/profil.ts` | foto profil kanal (topeng di depan bulan) |
 | `scripts/lembar_kontak.py`, `scripts/qa_video.py` | lembar kontak per shot; pengecekan otomatis video jadi |
 | `examples/ep1/` | `ep1.json` (naskah), `sfx_ep1.py` (isyarat efek suara), `klip_ep1.py` (motion-graphics), `youtube.txt` |
@@ -107,3 +109,9 @@ Tulis isyarat efek (`examples/ep1/sfx_ep1.py` sebagai pola), lalu `python templa
 | `npm ci` gagal di repo | lock file tidak sinkron | pakai `npm install` |
 | Caption potret keluar layar | kata dipisah margin, tidak bisa pindah baris | spasi sungguhan di antara kata (sudah) |
 | `beats.js` potret setengah putih | viewport tetap 1920x1080 | patch viewport mengikuti `#stage` (lihat setup.md) |
+| Suara perempuan terdengar robot | vibrato emosi `takut` terlalu dalam (0,18) | `vibrato=f=6.5:d=0.05` di `suara.py` (sudah) |
+| Video bergeser setelah suara diubah | durasi klip berubah, timeline lama dipakai video | `samakan_durasi.py` lalu `buat_suara.py` (lihat `references/suara-sfx.md`) |
+| Mix Shorts hanya -16 LUFS | true peak -4,5 dBTP membatasi `loudnorm` | `TP=-1.0` dan `alimiter=0.89` (sudah di `mix.py`) |
+| Render batch hilang diam-diam | proses dimulai dari shell panggilan | `Start-Process` di PowerShell; cek proses ganda dulu |
+| Still gagal "Webpack configuration schema" | `scripts/stills.mjs` di Node 24 | `npx remotion still ... --gl=angle` |
+| Psikopat tidak terlihat | tiang kanopi di antara kamera dan tokoh | kamera ke sisi kosong; cek still |

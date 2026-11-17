@@ -38,7 +38,7 @@ EMOSI = {
     #          st     speed  dB   efek
     "netral": (0.0,   1.00,  0.0, ""),
     "senang": (1.5,   1.07,  1.0, ""),
-    "takut":  (2.0,   1.12,  0.0, "vibrato=f=6.5:d=0.18"),
+    "takut":  (2.0,   1.12,  0.0, "vibrato=f=6.5:d=0.05"),
     "teriak": (3.5,   1.18,  5.0, "acompressor=threshold=-18dB:ratio=4:attack=5:release=60"),
     "sedih":  (-1.2,  0.86, -2.0, ""),
     "seram":  (-2.0,  0.84,  0.0, "lowpass=f=6500"),

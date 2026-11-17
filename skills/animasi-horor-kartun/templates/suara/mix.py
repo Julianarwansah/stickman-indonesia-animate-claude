@@ -115,6 +115,6 @@ raw = os.path.join(EP, "mix_raw.f32")
 np.stack([mix, mix], axis=1).astype(np.float32).tofile(raw)
 out = os.path.join(EP, "mix.wav")
 subprocess.run(["ffmpeg", "-loglevel", "error", "-y", "-f", "f32le", "-ar", str(SR), "-ac", "2", "-i", raw,
-                "-af", f"loudnorm=I={A.lufs}:TP=-4.5:LRA=14,alimiter=limit=0.6:level=false,aresample=48000", "-c:a", "pcm_s16le", out], check=True)
+                "-af", f"loudnorm=I={A.lufs}:TP=-1.0:LRA=14,alimiter=limit=0.89:level=false,aresample=48000", "-c:a", "pcm_s16le", out], check=True)
 os.remove(raw)
 print("mix.wav", round(TOTAL, 1), "s")

@@ -37,3 +37,11 @@ Jalankan di latar belakang. Laptop user: ±6–7 menit per potongan 1800 frame (
 
 ## Foto profil (`templates/branding/profil.ts`)
 Topeng The Smiling Man di depan bulan purnama, salju, siluet pinus. Build seperti lembar karakter (esbuild → HTML → Chrome headless `--window-size=1600,1600 --hide-scrollbars`), lalu Pillow ke 1024 & 800 px. Cek dalam potongan bulat (ukuran 400/176/88/40 px): topeng harus tetap terbaca; jangan taruh detail kecil di tepi (terpotong lingkaran).
+
+## Render Shorts (potret): proses & jebakan (2026-11)
+- Jalankan batch render sebagai proses terpisah (`Start-Process` di PowerShell, jendela tersembunyi). Proses yang dimulai dari shell panggilan (`nohup`, `&`) mati saat panggilan shell selesai.
+- Sebelum memulai, cek proses lama: `Get-CimInstance Win32_Process` untuk `render_short|remotion`. Dua rantai render yang menulis `_tmp_NN.mp4` yang sama merusak potongan dan membuang CPU.
+- Still: `npx remotion still src/index.ts <Comp> <out.png> --frame=N --scale=0.5 --gl=angle --browser-executable=<chrome>`. `scripts/stills.mjs` gagal dengan "Webpack configuration schema" di Node 24.
+- Uji 30 frame dulu (`render_potret.py <n> --frames=0-29`), lalu cek satu frame penuh sebelum batch.
+- Audio saja berubah: `render_potret.py <n> --sambung` (video tetap, audio dipasang ulang).
+- Mulai batch baru di belakang proses yang sudah jalan: tunggu sampai log `SEMUA SELESAI` lebih dulu.

@@ -48,3 +48,10 @@ Buka PNG dengan Read. Lembar ini juga yang dikirim ke user saat mengusulkan toko
 - Jempol ke atas di tengah kepalan terbaca sebagai jari tengah → jempol di sisi + garis lipatan jari.
 - Lengan panjang + manset membuat tangan tampak lepas (user menolak).
 - Senter dipegang di pusat kepalan (`W + 20*dir(ang)`), bukan di pergelangan.
+
+## Tokoh pendukung & latar baru (Shorts 2026-11)
+- Tokoh baru punya suara sendiri: tambahkan entri di `TOKOH` (`suara.py`) dan petakan `who` di naskah (contoh `PENGGANTI` di `naskah/buat_shorts2.py`). Jangan memakai suara tokoh lain untuk tokoh baru.
+- Model tokoh baru = `Rupa` baru (lihat "Cara bikin tokoh baru"). Model pendukung yang berulang (anak, warga) cukup diganti warna dan baju.
+- Latar baru: buat blok sendiri di `island.ts` memakai `boxGeo`, `lam` dan `house()`; jangan menaruh objek di dalam kotak rumah yang ada. Simpan koordinat tempat di `story.ts` sebagai konstanta.
+- Kamera di balik objek (tiang, kanopi): pilih sisi yang kosong. Tokoh di balik tiang menghilang di still; cek dengan still sebelum render.
+- Kamera lebih dekat dari ~2,5 m ke lampu atau layar terang menjadi kabur oleh bloom. Mundurkan kamera.
