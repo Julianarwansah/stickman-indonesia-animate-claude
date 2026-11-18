@@ -142,4 +142,5 @@ Episode baru = `naskah/epN.json` + `adegan/epN.json` + `epN/sfx_epN.py`; mesin t
 | Render potret keluar separuh | Chrome kehabisan memori | `KN_CONC=2`; `render_ep.sh` berhenti bila potongan hilang |
 | Tokoh-tokoh tampak kembar | rupa hanya beda warna | aksesori `topi`/`sanggul`/`selendang`/`ransel`/`kumis`/`jenggot`/`dasi` (serial_mesin) |
 | Latar tidak cocok cerita Indonesia | dunia hanya rumah barat + pinus | `latar_id.ts` (gunung api, pura, rumah kayu, sawah) + `desa`/`gunungApi` di ep.json |
+| Tokoh berdiri kaku satu shot penuh | tidak ada akting otomatis | `akting.ts`: gerak sesuai emosi, menoleh ke pembicara, tersentak + kamera punch-in/guncang/ikut pembicara |
 | Lebih banyak jebakan serial Indonesia | | tabel di `references/serial-indonesia.md` |

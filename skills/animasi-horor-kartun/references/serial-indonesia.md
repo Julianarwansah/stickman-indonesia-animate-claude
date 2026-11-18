@@ -114,6 +114,26 @@ Sekarang (sudah di `serial_mesin/Bridge.tsx` + `kata.py`):
 - Layar tegak sempit (±11° horizontal): tokoh yang menyamping > 11° dari arah kamera keluar bingkai. Satu tokoh per shot atau dua rapat.
 - Ekspor komponen tetap bernama `PetakaGunung` / `PG_FRAMES` (dipakai `mk_ep.sh`).
 
+## Akting & kamera otomatis (dulu: tokoh berdiri kaku satu shot penuh)
+`serial_mesin/akting.ts` + `story.ts` menghitung gerak per frame dari naskah — **tidak perlu menulis apa pun di adegan**.
+Pose/wajah yang ditulis tangan (`w`, `kanan`/`kiri` di jalur, scene `pose`) selalu menang.
+| Situasi | Tokoh | Kamera |
+|---|---|---|
+| bicara `teriak`/`takut` | tangan terangkat ketakutan, gemetar | — |
+| bicara `marah` | menunjuk, kepala menyentak | — |
+| bicara `sedih` | kepala menunduk & miring | — |
+| bicara `senang` | melambai singkat | — |
+| bicara netral/bisik/seram | kepala mengangguk kecil di awal tiap kata (waktu kata whisper) | — |
+| mendengar | mata & kepala menoleh ke pembicara; ikut **cemas** bila pembicara takut/teriak | `ikut: true` di scene = kamera pindah ke pembicara tiap baris |
+| narasi menyebut kematian/korban (`meninggal`, `tewas`, `korban`, ...) | pendengar ikut **sedih** sampai baris selesai | — |
+| **kejut**: baris `teriak`, `j01`, kata `meletus/letusan/tiba-tiba/runtuh/lahar/...` | semua tersentak: wajah kaget, tangan naik, lompat kecil | **punch-in 15 %** + guncang ±20 frame |
+| scene `letusan` | — | guncang pelan terus-menerus |
+| diam | napas (kepala ±1°), kedip; hantu bergoyang lambat | goyang tangan halus (`hand` 0,35) bila scene tidak `fix` |
+Matikan per episode: `aktingOtomatis: false` / `kameraOtomatis: false` di adegan JSON; per scene: `akting: false` atau `fix: true`.
+Nilai dibulatkan (miring 0,5°, tangan 0,1) supaya cache kanvas tokoh tetap kecil — jangan menambah gerak kontinu tanpa pembulatan.
+Uji logika tanpa render: salin `story.ts` + `akting.ts` ke folder uji, ganti import JSON jadi `with { type: "json" }`, jalankan `node` dengan
+skrip kecil yang mencetak `akting(...)` per baris (lihat riwayat skill) — cek siapa bicara, menoleh, tersentak, dan frame `KEJUT`.
+
 ## Ciri khas tokoh (aturan user: "karakternya dibedakan agar memiliki ciri khas")
 Bentuk badan **tetap** (aturan utama skill) — user menegaskan lagi (18 Nov 2026): **bentuk karakter sudah disukai dan sesuai, jangan diubah**. Pembeda hanya aksesori di `Rupa` (`serial_mesin/tokoh.ts`):
 `topi: kupluk|caping|udeng|pet|ikat` (+`topiWarna`, `topiWarna2`), `sanggul`, `selendang`/`selendang2` (tenun bermotif belah ketupat + rumbai),
@@ -242,6 +262,7 @@ Unggah/jadwal hanya bila user meminta.
 | Kartu A/B ±15 dtk statis | naskah p01/p02 panjang + jeda 2,2 | kartu ≤ 8 dtk, adegan 3D di balik kartu (sudah) |
 | SFX terasa kosong/datar | mono, ±15 efek per 55 dtk, tanpa transisi/foley, LRA 2,8, -16 LUFS | mix v2: stereo, lapisan otomatis, `suasana`, `hit`, -14 LUFS (sudah) |
 | Sampul tidak diklik | frame acak + subtitle terbakar, wajah datar, tanpa teks | `sampul.ts`: wajah besar beremosi, ancaman sebagian + lingkaran merah, teks 2–4 kata (sudah) |
+| Tokoh kaku, kamera diam | gerak hanya dari keyframe tangan | `akting.ts` + kamera otomatis (punch-in, guncang, ikut pembicara) (sudah) |
 | Subtitle loncat & tidak sinkron | jendela kata bergeser + waktu tebakan + hening awal | `kata.py` + halaman frasa tetap + `TRIM` (sudah) |
 | Sorotan selalu lebih cepat dari suara | ±1 dtk hening awal klip TTS Cepat | silenceremove RMS -35 dB (sudah) |
 | Durasi 60–66 dtk padahal naskah pas | hening TTS ikut dihitung | potong hening; padatkan baris bila masih > 55 dtk |

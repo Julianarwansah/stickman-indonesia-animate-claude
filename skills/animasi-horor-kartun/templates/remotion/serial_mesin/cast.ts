@@ -6,6 +6,7 @@ import { gambarTokoh, RUPA_BY_NAME, Gaya, Rupa, Ekspresi } from "./tokoh";
 import { FPS, SHOTS, V3, clamp01, speakingAt, sceneOf, ctxAt, LAMPS, Pose, KEYS, poseOf, E, tm } from "./story";
 
 import { NOINK } from "./ink";
+import { akting } from "./akting";
 import { cardShade, blobMaterial, CARD_K } from "./cardshade";
 
 // ---------------- canvas pool ----------------
@@ -245,7 +246,14 @@ export const stage = (id: number, f: number, cam: CamInfo): Stage => {
       ...(extra[key] as Partial<Gaya> | undefined),
     };
     if (talking) G.bicara = sp!.mouth;
-    tokoh(out, cam, key, R, pz.p, G, R.gayaRambut !== "hantu", pz.skala ?? 1);
+    // akting otomatis (gerak sesuai emosi, menoleh ke pembicara, tersentak); pose/wajah tertulis di adegan tetap menang
+    const tulis = { ...(pz.extra as Partial<Gaya>), ...(extra[key] as Partial<Gaya> | undefined) };
+    const ak = akting(key, f, { talking: !!talking, emo: sp?.emo ?? "netral", speakerKey: spKey, ghost: R.gayaRambut === "hantu",
+      base: { ...tulis, wajah: talking ? undefined : pz.w as Ekspresi | undefined, miring: pz.miring }, camRight: [cam.right.x, cam.right.z], scAkting: sc.akting, idx: i });
+    Object.assign(G, ak.gaya, tulis);
+    if (talking) G.wajah = (ak.gaya.wajah === "kaget" ? "kaget" : G.wajah);
+    const pos: V3 = [pz.p[0] + ak.geser, pz.p[1] + ak.angkat, pz.p[2]];
+    tokoh(out, cam, key, R, pos, G, R.gayaRambut !== "hantu", pz.skala ?? 1);
     // sorot senter di tanah, ke arah lengan senter (kiri tokoh = +layar kanan -> arah -x dunia sebagai bawaan)
     const sen = (pz.extra.kiri as { pose?: string } | undefined)?.pose === "senter" || (pz.extra.kanan as { pose?: string } | undefined)?.pose === "senter";
     if (sen && s.light === "day" && hh2(Math.floor(f / 2), 3) > 0.1)

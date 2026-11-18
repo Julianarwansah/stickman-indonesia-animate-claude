@@ -40,14 +40,14 @@ export type TokohDef = { rupa: string; suara?: string[]; bicaraWajah?: Record<st
 export type SceneDef = {
   subj?: string | V3; az: number; dist: number; distTo?: number; distT?: number; push?: number; camH?: number; lookH?: number; dx?: number; dz?: number;
   fov?: number; hand?: number; roll?: number; fix?: boolean; light?: "day" | "golden"; snow?: number; hide?: string[]; back?: string[];
-  overlay?: "hitam" | "kedip"; capPos?: "atas" | "bawah"; letusan?: number; gas?: number; dof?: number; kick?: number; pose?: Record<string, Record<string, unknown>>; moonAz?: number;
+  overlay?: "hitam" | "kedip"; capPos?: "atas" | "bawah"; ikut?: boolean; akting?: boolean; letusan?: number; gas?: number; dof?: number; kick?: number; pose?: Record<string, Record<string, unknown>>; moonAz?: number;
   bayangan?: { p: [number, number]; hantu?: boolean; len?: number; kepala?: boolean }[]; glitch?: { key: string; rupa: string };
   /** layar HP berisi foto: orang di foto (kiri ke kanan, depan), sosok di belakang, zoom (1 = utuh) ke titik fokus 0..1 */
   hp?: { depan: { rupa: string; w?: string }[]; belakang?: { rupa: string; x: number; w?: string; kanan?: Record<string, unknown>; kiri?: Record<string, unknown> }[]; zoom?: number; zoomTo?: number; fokus?: [number, number]; jam?: string };
 };
 export type EpDef = { ep: number; judul: string; seri?: string; stempel?: string; kartuJudul?: string; kartuBawah?: string; kunci?: string[];
   /** latar: gunungApi [x,z] | false, kawahMenyala, asapGunung, desa 'kayu' (default) | 'barat', kabut (0..1, default 0.6), vignette (default 0.6), jarakKabut (default 1.6) */
-  gunungApi?: [number, number] | false; kawahMenyala?: boolean; asapGunung?: boolean; desa?: "kayu" | "barat"; hutan?: "pinus" | "tropis" | "gundul"; tanah?: "hutan" | "abu" | "kering"; kabut?: number; vignette?: number; jarakKabut?: number; hook?: string; pilihan: { A: string; B: string }; menang?: string; lampu?: boolean;
+  aktingOtomatis?: boolean; kameraOtomatis?: boolean; gunungApi?: [number, number] | false; kawahMenyala?: boolean; asapGunung?: boolean; desa?: "kayu" | "barat"; hutan?: "pinus" | "tropis" | "gundul"; tanah?: "hutan" | "abu" | "kering"; kabut?: number; vignette?: number; jarakKabut?: number; hook?: string; pilihan: { A: string; B: string }; menang?: string; lampu?: boolean;
   api?: [number, number][]; benda?: { jenis: "senter"; p: [number, number]; dari?: number | string; sampai?: number | string }[]; tokoh: Record<string, TokohDef>; scenes: Record<string, SceneDef> };
 export const E = EP as unknown as EpDef;
 
@@ -64,6 +64,17 @@ export const tm = (v: number | string): number => {
   if (!m || !BY[m[1]]) throw new Error("waktu tidak dikenal di ep.json: " + v);
   return (m[2] ? T1(m[1]) : T0(m[1])) + (m[3] ? parseFloat(m[3]) : 0);
 };
+/** KEJUT OTOMATIS: frame saat penonton & tokoh harus tersentak — baris teriak, kata kejut (dari waktu kata whisper),
+ *  jumpscare j01 (guncangan letusan diurus kameraOto). kejutAt(f) = 0..1 (naik 3 frame, turun ±16 frame). */
+const KATA_KEJUT = /^(meletus|letusan|meledak|ledakan|tiba-tiba|menjerit|berteriak|teriak|runtuh|longsor|gempa|lahar|menjebol|menyapu|jatuh|terjatuh|dentum|padam|mati!|hilang!|menoleh!|lari!)/i;
+export const KEJUT: number[] = [];
+for (const l of LINES) {
+  if (l.id === "j01" || l.emo === "teriak") KEJUT.push(l.start);
+  for (const [w, f0] of l.kata ?? []) if (KATA_KEJUT.test(w.replace(/[".,?…]+$/, ""))) KEJUT.push(f0);
+}
+export const kejutAt = (f: number) => { let k = 0; for (const a of KEJUT) { const n = f - a; if (n >= 0 && n < 20) k = Math.max(k, n < 3 ? n / 3 : (1 - (n - 3) / 17) ** 1.5); } return k; };
+/** kata sedih dalam baris narator -> tokoh yang mendengar ikut sedih */
+export const KATA_SEDIH = /^(meninggal|tewas|wafat|korban|hilang|ditinggal|menangis|tidak pernah turun|gugur)/i;
 export const speakingAt = (f: number): { who: string; emo: string; mouth: number; k: string | null } | null => {
   for (const l of LINES) if (l.who && f >= l.start && f < l.end) return { who: l.who, emo: l.emo ?? "netral", mouth: l.mulut[f - l.start] ?? 0, k: l.k ?? null };
   return null;
@@ -151,12 +162,21 @@ for (const s of SHOTS) { const sc = sceneOf(s); s.light = sc.light ?? "day"; if 
 
 const ctxOf = (s: ShotDef, f: number): Ctx => { const T_ = (s.b - s.a) / FPS, t = (f - s.a) / FPS; return { f, t, T: T_, u: clamp01(t / Math.max(0.01, T_)), s }; };
 export const ctxAt = (f: number) => ctxOf(shotAt(f), f);
+/** kamera ikut pembicara (scene `ikut: true`): subjek = tokoh yang sedang bicara (potong per baris), kembali ke subj saat narasi */
+const pembicaraKey = (f: number): string | null => {
+  for (const l of LINES) if (l.who && l.who !== "narator" && f >= l.start - 2 && f < l.end + 6) {
+    if (l.k) return l.k;
+    for (const k of KEYS) if ((E.tokoh[k].suara ?? []).includes(l.who)) return k;
+  }
+  return null;
+};
 const camOf = (s: ShotDef, f: number): Shot => {
   const sc = sceneOf(s), c = ctxOf(s, f), tt = sc.fix ? s.a / FPS : f / FPS;
-  const p = subjAt(sc.subj, tt);
+  const pk = sc.ikut ? pembicaraKey(f) : null;
+  const p = subjAt(pk ?? sc.subj, tt);
   const k = sc.push ? Math.exp(-sc.push * (f - s.a)) : 1;
   const dist = sc.distTo !== undefined ? sc.dist + (sc.distTo - sc.dist) * smooth(c.t / (sc.distT ?? c.T)) : sc.dist;
-  return ms(p, sc.az, dist, k, { camH: sc.camH, lookH: sc.lookH, dx: sc.dx, dz: sc.dz, fov: sc.fov, roll: (sc.roll ?? 0) + (sc.hand ? hand(c.t, sc.hand) : 0) });
+  return ms(p, sc.az, dist, k, { camH: sc.camH, lookH: sc.lookH, dx: sc.dx, dz: sc.dz, fov: sc.fov, roll: (sc.roll ?? 0) + (sc.hand ? hand(c.t, sc.hand) : (E.kameraOtomatis !== false && !sc.fix ? hand(c.t, 0.35) : 0)) });
 };
 const kickAt = (s: ShotDef, f: number) => {
   const k = sceneOf(s).kick;
@@ -164,8 +184,19 @@ const kickAt = (s: ShotDef, f: number) => {
   const n = f - s.a, len = k > 1.5 ? 16 : 7;
   return n >= 0 && n < len ? k * 0.7 * (n % 2 ? -1 : 1) * (1 - n / len) ** 1.2 : 0;
 };
+/** KAMERA OTOMATIS saat kejut: dorong cepat ke subjek (punch-in 15 %) + guncang kecil; letusan = guncang pelan terus-menerus */
+const kameraOto = (s: ShotDef, f: number, c: Cam): Cam => {
+  const sc = sceneOf(s);
+  if (E.kameraOtomatis === false || sc.fix || sc.overlay === "hitam") return c;
+  const k = kejutAt(f), g = Math.max(k, 0.25 * (sc.letusan ?? 0));
+  if (!k && !g) return c;
+  const d: V3 = [c.look[0] - c.pos[0], c.look[1] - c.pos[1], c.look[2] - c.pos[2]], L = Math.hypot(...d);
+  const push = 0.15 * k, j = 0.012 * L * g;
+  const jx = j * (hh(f, 1) - 0.5), jy = j * (hh(f, 2) - 0.5), jz = j * (hh(f, 3) - 0.5);
+  return { ...c, pos: [c.pos[0] + d[0] * push + jx, c.pos[1] + d[1] * push + jy, c.pos[2] + d[2] * push + jz], roll: c.roll + 0.012 * g * (hh(f, 4) - 0.5) };
+};
 export const camAt = (id: number, f: number): Cam => {
-  const s = SHOTS[id - 1], c: Cam = { fov: 40, roll: 0, ...camOf(s, f) }, a = kickAt(s, f);
+  const s = SHOTS[id - 1], c: Cam = kameraOto(s, f, { fov: 40, roll: 0, ...camOf(s, f) }), a = kickAt(s, f);
   if (!a) return c;
   const d: V3 = [c.look[0] - c.pos[0], c.look[1] - c.pos[1], c.look[2] - c.pos[2]];
   const L = Math.hypot(...d), h = Math.hypot(d[0], d[2]) || 1;
