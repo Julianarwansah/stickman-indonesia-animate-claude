@@ -6,6 +6,7 @@
 // Ruang gambar 600 x 1000 unit, telapak kaki di y = 975 (cocok dengan kartu BODY di pipeline kartun-3d-shorts:
 // 1000 unit = 2,16 m). Tidak bergantung pada file lain.
 
+import EP_TOKOH from "./ep.json";
 export const TINTA = "#2b1631";
 type P2 = [number, number];
 type C3 = [number, number, number];
@@ -53,7 +54,7 @@ export type Rupa = {
   baju: string; baju2: string; bawah: string; sepatu: string; sol: string;
   kacamata?: boolean; kantung?: boolean;
   /** ciri khas (seri Kisah Nyata): penutup kepala, sanggul, selendang tenun, ransel, kumis/jenggot, dasi pilot */
-  topi?: "kupluk" | "caping" | "udeng" | "pet" | "ikat"; topiWarna?: string; topiWarna2?: string;
+  topi?: "kupluk" | "caping" | "udeng" | "pet" | "ikat" | "peci" | "helm"; topiWarna?: string; topiWarna2?: string;
   sanggul?: boolean; selendang?: string; selendang2?: string; ransel?: string;
   kumis?: string; jenggot?: string; dasi?: string;
 };
@@ -529,6 +530,16 @@ const topiDepan = (g: G2, R: Rupa, light: number, fx: number) => {
     const visor = smoothC([[cx - 0.98 * r, cy - 0.58 * r], [cx, cy - 0.34 * r], [cx + 0.98 * r, cy - 0.58 * r], [cx, cy - 0.5 * r]], 3); part(g, visor, "#111318", light, 3, 4);
     const badge = ellPts(cx, cy - 0.98 * r, 0.2 * r, 0.16 * r, 16); part(g, badge, c2, light, 3, 3);
     for (const s2 of [-1, 1]) line(g, [[cx + s2 * 0.22 * r, cy - 0.98 * r], [cx + s2 * 0.42 * r, cy - 1.04 * r]], 3, c2);
+  } else if (R.topi === "peci") {   // peci/songkok hitam beludru
+    const crown = smoothC([[cx - 0.98 * r, cy - 0.5 * r], [cx - 0.92 * r, cy - 1.02 * r], [cx, cy - 1.1 * r], [cx + 0.92 * r, cy - 1.02 * r], [cx + 0.98 * r, cy - 0.5 * r], [cx, cy - 0.42 * r]], 3);
+    part(g, crown, R.topiWarna ?? "#17151c", light, 7);
+    line(g, [[cx - 0.94 * r, cy - 0.62 * r], [cx + 0.94 * r, cy - 0.62 * r]], 2.2, R.topiWarna2 ?? "#34303c");
+  } else if (R.topi === "helm") {   // helm proyek/tambang/SAR dengan lampu kecil
+    const dome = smoothC([...arcPts(cx, cy - 0.42 * r, 1.12 * r, 0.98 * r, Math.PI, Math.PI * 2, 20), [cx + 1.12 * r, cy - 0.42 * r]], 3);
+    part(g, dome, R.topiWarna ?? "#e8b81e", light, 9);
+    line(g, [[cx, cy - 1.38 * r], [cx, cy - 0.5 * r]], 5, shd(R.topiWarna ?? "#e8b81e", 0.8));
+    const brim = smoothC([[cx - 1.38 * r, cy - 0.44 * r], [cx, cy - 0.3 * r], [cx + 1.38 * r, cy - 0.44 * r], [cx, cy - 0.56 * r]], 3); part(g, brim, shd(R.topiWarna ?? "#e8b81e", 0.85), light, 3, 4);
+    if (R.topiWarna2) { const lamp = ellPts(cx, cy - 0.86 * r, 0.2 * r, 0.16 * r, 16); part(g, lamp, R.topiWarna2, light, 3, 3); }
   } else if (R.topi === "ikat") {
     const band = smoothC([...arcPts(cx, cy - 0.12 * r, 1.07 * r, 0.6 * r, Math.PI * 1.04, Math.PI * 1.96, 18), ...arcPts(cx, cy - 0.02 * r, 1.05 * r, 0.44 * r, Math.PI * 1.96, Math.PI * 1.04, 18)], 2);
     part(g, band, c1, light, 5);
@@ -786,3 +797,12 @@ export const ALETA: Rupa = { nama: "Mama Aleta", sanggul: true, selendang: "#b02
 export const MAMA2: Rupa = { nama: "Mama", topi: "ikat", topiWarna: "#2a3a6a", topiWarna2: "#e0c040", selendang: "#2a4a8a", selendang2: "#f0e0a0", celana: "kain", kulit: "#a07048", rambut: "#14100d", gayaRambut: "kuncir", atasan: "flanel", baju: "#2a3a6a", baju2: "#e0c040", bawah: "#3a2a4a", sepatu: "#3a2416", sol: "#140c08" };
 export const PILOT: Rupa = { nama: "Kapten", topi: "pet", topiWarna: "#1e2a44", topiWarna2: "#d8b44a", dasi: "#1a1e2a", celana: "kain", kulit: "#f0d6c0", rambut: "#6a5040", gayaRambut: "acak", atasan: "rompi", baju: "#1e2a44", baju2: "#f2f2f2", bawah: "#1e2a44", sepatu: "#141414", sol: "#0a0a0a", kantung: true };
 export const RUPA_BY_NAME: Record<string, Rupa> = { GIE, IDHAN, PETANI, PETANI_W, ANAK, PEMANGKU, UMAT, ALETA, MAMA2, PILOT, SEKAR, RAKA, RAKA_PUCAT, SINTA, SINTA_PALSU, SINTA_PULANG, KAKEK, KAKEK_PUCAT, HANTU, JAKA, MBAH, DIMAS, AYU, TOMI, RINA };
+
+/** PEMERAN PER CERITA: `pemeran` di ep.json mendefinisikan tokoh khusus episode tanpa mengubah file ini.
+ *  { "NAMA": { "dari": "PETANI", "baju": "#...", "topi": "peci", ... } } -> salin rupa `dari` lalu timpa field-nya.
+ *  Bentuk badan selalu sama (aturan user); yang berbeda hanya warna, pakaian, rambut, aksesori. Tokoh utama serial tetap memakai rupa terkunci. */
+type PemeranDef = Partial<Rupa> & { dari?: string };
+for (const [k, v] of Object.entries(((EP_TOKOH as unknown) as { pemeran?: Record<string, PemeranDef> }).pemeran ?? {})) {
+  const { dari, ...isi } = v;
+  RUPA_BY_NAME[k] = { ...(RUPA_BY_NAME[dari ?? "PETANI"] ?? PETANI), ...isi, nama: isi.nama ?? k } as Rupa;
+}

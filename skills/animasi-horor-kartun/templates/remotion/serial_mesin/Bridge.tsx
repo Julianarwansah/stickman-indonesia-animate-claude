@@ -22,6 +22,7 @@ import { Kit } from "./build";
 import { TOTAL, FLASH_AT, SHOTS, SPY, layersAt, dofAt, sceneOf, shotAt, LINES, Line, hh, FPS, ShotDef, E } from "./story";
 import MG from "./mg.json";
 import { W, H, POTRET, CAPTION } from "./format";
+import { halaman, isKunci, Kata } from "./caption";
 
 export const PG_FRAMES = TOTAL;
 
@@ -146,7 +147,7 @@ const Vignette: React.FC<{ f: number; kuat: number }> = ({ f, kuat }) => (
 /** cap lokasi bergaya mesin ketik di kiri bawah */
 const Cap: React.FC<{ text: string; k: number }> = ({ text, k }) => {
   const n = Math.min(text.length, Math.floor(k * 30 * 24)), o = Math.min(1, Math.max(0, (5.5 - k) / 0.6));
-  return <AbsoluteFill><div style={{ position: "absolute", left: POTRET ? 60 : 90, top: POTRET ? 230 : undefined, bottom: POTRET ? undefined : 86, opacity: o, fontFamily: "Courier New, monospace", fontSize: 38, fontWeight: 700, color: "#f2efe4", letterSpacing: 1, textShadow: "0 2px 8px rgba(0,0,0,0.85)", borderLeft: "5px solid #c8323a", paddingLeft: 18 }}>{text.slice(0, n)}<span style={{ opacity: (k * 2) % 1 < 0.5 ? 1 : 0 }}>▌</span></div></AbsoluteFill>;
+  return <AbsoluteFill><div style={{ position: "absolute", left: POTRET ? 60 : 90, top: POTRET ? 200 : undefined, bottom: POTRET ? undefined : 86, opacity: o, fontFamily: "Arial Black, Impact, sans-serif", fontSize: POTRET ? 46 : 38, color: "#f2efe4", letterSpacing: 1, textTransform: "uppercase", background: "rgba(10,8,14,0.72)", borderLeft: "8px solid #c8323a", padding: "12px 22px", maxWidth: W * 0.8 }}>{text.slice(0, n)}<span style={{ opacity: (k * 2) % 1 < 0.5 ? 1 : 0 }}>▌</span></div></AbsoluteFill>;
 };
 /** sisipan motion-graphics layar penuh per scene; offset waktu klip berlanjut antar shot dengan scene yang sama */
 const mgShots = (scene: string) => SHOTS.filter((s) => s.scene === scene);
@@ -158,46 +159,36 @@ const MgClip: React.FC<{ s: ShotDef }> = ({ s }) => {
   return <Sequence from={s.a} durationInFrames={s.b - s.a}><OffthreadVideo src={staticFile(file)} startFrom={off} muted /></Sequence>;
 };
 
-/** caption per kata (Shorts/Reels/TikTok): frasa pendek TETAP (maks 3 kata / 18 huruf, dipotong di tanda baca), kata aktif kuning.
- *  Waktu kata dari suara asli (`kata` di timeline, hasil kata.py/whisper); cadangan: sebanding panjang huruf. Di atas zona UI (bawah 25 %). */
-type Kata = [string, number, number];
+/** caption per frasa (Shorts/Reels/TikTok). Waktu kata dari suara asli (`kata` di timeline, hasil kata.py/whisper); cadangan: sebanding huruf.
+ *  Frasa = unit makna (caption.ts: nama, tanggal, kata depan tidak dipisah). Kata kunci (angka, bulan, nama, `kunci` di ep.json) kuning TETAP;
+ *  kata yang belum diucapkan redup, kata yang sedang diucapkan sedikit membesar. Posisi: bawah (default, di atas zona tombol aplikasi)
+ *  atau `capPos: "atas"` per scene bila wajah/tokoh ada di bawah. Garis tepi tebal (cincin bayangan) supaya terbaca di kabut terang. */
 const kataLine = (l: Line): Kata[] => {
   if (l.kata && l.kata.length) return l.kata;
   const words = (l.text ?? "").split(/\s+/), total = (l.text ?? "").length; let acc = 0;
   return words.map((w) => { const a = l.start + (acc / total) * (l.end - l.start); acc += w.length + 1; return [w, Math.round(a), Math.round(l.start + (acc / total) * (l.end - l.start))] as Kata; });
 };
-const halaman = (k: Kata[]): Kata[][] => {
-  const out: Kata[][] = []; let cur: Kata[] = [];
-  for (const w of k) {
-    const len = cur.reduce((n, x) => n + x[0].length + 1, 0) + w[0].length;
-    if (cur.length && (cur.length >= 3 || len > 18)) { out.push(cur); cur = []; }
-    cur.push(w);
-    if (/[.,?!:…]$/.test(w[0])) { out.push(cur); cur = []; }
-  }
-  if (cur.length) out.push(cur);
-  // kata yatim (1 kata) digabung ke frasa sebelumnya bila frasa itu tidak berakhir tanda baca dan masih muat
-  for (let i = out.length - 1; i > 0; i--) {
-    const prev = out[i - 1], len = [...prev, ...out[i]].reduce((n, x) => n + x[0].length + 1, 0);
-    if (out[i].length === 1 && !/[.,?!:…]$/.test(prev[prev.length - 1][0]) && prev.length <= 3 && len <= 24) { out[i - 1] = [...prev, ...out[i]]; out.splice(i, 1); }
-  }
-  return out;
-};
-const Caption: React.FC<{ f: number }> = ({ f }) => {
+const RING = (() => { const r = POTRET ? 6 : 4, out: string[] = []; for (let a = 0; a < 16; a++) out.push(`${(r * Math.cos(a * Math.PI / 8)).toFixed(1)}px ${(r * Math.sin(a * Math.PI / 8)).toFixed(1)}px 0 #0b0710`); return out.join(", ") + ", 0 10px 24px rgba(0,0,0,0.8)"; })();
+const Caption: React.FC<{ f: number; pos?: "atas" | "bawah" }> = ({ f, pos }) => {
   const l = LINES.find((x) => x.text && f >= x.start - 2 && f < x.end + 8);
   if (!l || !l.text) return null;
-  const pages = halaman(kataLine(l));
+  const all = kataLine(l), pages = halaman(all);
+  const awal = new Set<Kata>(all.filter((w, i) => i === 0 || /[.?!…]$/.test(all[i - 1][0])));
   let pi = 0;
   pages.forEach((pg, i) => { if (f >= pg[0][1] - 2) pi = i; });
   const pg = pages[pi], last = pg[pg.length - 1];
   if (f > last[2] + 10 && pi === pages.length - 1 && f > l.end) return null;
   const k0 = Math.min(1, Math.max(0, (f - pg[0][1] + 3) / 4));
+  const atas = pos === "atas";
   return (
-    <AbsoluteFill style={{ justifyContent: "flex-end", alignItems: "center", paddingBottom: POTRET ? H * 0.26 : 90 }}>
-      <div style={{ maxWidth: W * 0.86, textAlign: "center", fontFamily: "Arial Black, Impact, sans-serif", fontSize: POTRET ? 82 : 58, lineHeight: 1.12,
-        color: "#ffffff", textTransform: "uppercase", WebkitTextStroke: POTRET ? "4px #0b0710" : "3px #0b0710", textShadow: "0 6px 18px rgba(0,0,0,0.75)",
-        transform: `scale(${0.92 + 0.08 * k0})`, opacity: 0.4 + 0.6 * k0 }}>
-        {pg.map((w, i) => { const on = f >= w[1] - 1 && (f < w[2] + 2 || i === pg.length - 1);
-          return <React.Fragment key={i}><span style={{ color: on ? "#ffd84a" : "#ffffff" }}>{w[0].replace(/\.\.\.$/, "…")}</span>{" "}</React.Fragment>; })}
+    <AbsoluteFill style={{ justifyContent: atas ? "flex-start" : "flex-end", alignItems: "center", paddingTop: atas ? H * 0.3 : 0, paddingBottom: atas ? 0 : POTRET ? H * 0.22 : 90 }}>
+      <div style={{ maxWidth: W * 0.88, textAlign: "center", fontFamily: "Arial Black, Impact, sans-serif", fontSize: POTRET ? 84 : 58, lineHeight: 1.14,
+        color: "#ffffff", textTransform: "uppercase", textShadow: RING, transform: `translateY(${(1 - k0) * 14}px) scale(${0.94 + 0.06 * k0})`, opacity: 0.3 + 0.7 * k0 }}>
+        {pg.map((w, i) => {
+          const sudah = f >= w[1] - 1, aktif = sudah && f < w[2] + 2, kunci = isKunci(w[0], awal.has(w), E.kunci);
+          return <React.Fragment key={i}><span style={{ display: "inline-block", color: kunci ? "#ffd84a" : "#ffffff", opacity: sudah ? 1 : 0.55,
+            transform: `scale(${aktif ? 1.07 : 1})` }}>{w[0].replace(/\.\.\.$/, "…")}</span>{" "}</React.Fragment>;
+        })}
       </div>
     </AbsoluteFill>
   );
@@ -213,9 +204,10 @@ const PilihanAB: React.FC<{ f: number }> = ({ f }) => {
   const pulse = 0.5 + 0.5 * Math.sin(f / 5);
   const box = (huruf: string, judul: string, warna: string, on: boolean, from: number) => {
     const show = Math.min(1, Math.max(0, (f - from + 4) / 8)), glow = on ? 1 : f >= fK ? 0.35 + 0.35 * pulse : 0.15;
+    const geser = (1 - (show * show * (3 - 2 * show))) * (huruf === "A" ? -W : W) * 0.6;   // masuk dari samping saat hurufnya disebut
     return (
       <div style={{ width: W * 0.84, padding: "38px 40px", marginTop: 46, borderRadius: 28, background: "rgba(12,10,16,0.92)", border: `6px solid ${warna}`,
-        boxShadow: `0 0 ${30 + 60 * glow}px ${warna}`, opacity: 0.25 + 0.75 * show, transform: `scale(${0.94 + 0.06 * show + (on ? 0.03 : 0)})`,
+        boxShadow: `0 0 ${30 + 60 * glow}px ${warna}`, opacity: show, transform: `translateX(${geser}px) scale(${0.96 + 0.04 * show + (on ? 0.04 : 0)})`,
         display: "flex", alignItems: "center", gap: 36 }}>
         <div style={{ width: 150, height: 150, borderRadius: 75, background: warna, color: "#0b0710", fontFamily: "Arial Black, Impact, sans-serif",
           fontSize: 110, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>{huruf}</div>
@@ -226,9 +218,9 @@ const PilihanAB: React.FC<{ f: number }> = ({ f }) => {
     );
   };
   return (
-    <AbsoluteFill style={{ background: "radial-gradient(ellipse at 50% 40%, #1d0a10 0%, #050307 75%)", alignItems: "center", paddingTop: 300, opacity: k0 }}>
+    <AbsoluteFill style={{ background: "radial-gradient(ellipse at 50% 40%, rgba(29,10,16,0.72) 0%, rgba(5,3,7,0.9) 75%)", alignItems: "center", paddingTop: 300, opacity: k0 }}>
       <div style={{ fontFamily: "Georgia, serif", fontWeight: 900, fontSize: 78, color: "#d8d2c4", letterSpacing: 4, textAlign: "center", textShadow: "0 0 24px rgba(170,0,10,0.85)",
-        transform: `translateX(${f % 41 < 2 ? 5 : 0}px)` }}>{(E.kartuJudul ?? "KAMU PILIH|MANA?").split("|").map((x, i) => <React.Fragment key={i}>{i ? <br /> : null}{x}</React.Fragment>)}</div>
+        transform: `translateY(${(1 - Math.min(1, (f - l.start) / 10)) * -60}px) translateX(${f % 41 < 2 ? 5 : 0}px)` }}>{(E.kartuJudul ?? "KAMU PILIH|MANA?").split("|").map((x, i) => <React.Fragment key={i}>{i ? <br /> : null}{x}</React.Fragment>)}</div>
       <div style={{ fontFamily: "Arial, sans-serif", fontSize: 36, color: "#9a93a6", marginTop: 18, letterSpacing: 2 }}>{E.seri ?? "NAMA SERIAL"} · EP.{E.ep}</div>
       {box("A", E.pilihan.A, "#d83a3a", f >= fA && f < fB, fA)}
       {box("B", E.pilihan.B, "#ffd84a", f >= fB && f < fK, fB)}
@@ -236,6 +228,10 @@ const PilihanAB: React.FC<{ f: number }> = ({ f }) => {
         opacity: Math.min(1, Math.max(0, (f - fK) / 8)), transform: `scale(${1 + 0.04 * pulse})` }}>TULIS A / B DI KOMENTAR</div>
       <div style={{ marginTop: 26, fontFamily: "Georgia, serif", fontSize: 40, color: "#b3101c", letterSpacing: 2, opacity: Math.min(1, Math.max(0, (f - fK - 20) / 10)) }}>{E.kartuBawah ?? "Jawabannya... di episode berikutnya."}</div>
       <TombolCTA f={f} at={(LINES.find((x) => x.id === "p02") ?? l).start} />
+      {/* bilah waktu tipis: kartu tidak terasa diam */}
+      <div style={{ position: "absolute", left: W * 0.08, bottom: H * 0.2, width: W * 0.84, height: 8, borderRadius: 4, background: "rgba(255,255,255,0.12)" }}>
+        <div style={{ width: `${100 * Math.min(1, Math.max(0, (f - l.start) / Math.max(1, TOTAL - l.start)))}%`, height: 8, borderRadius: 4, background: "#ffd84a" }} />
+      </div>
     </AbsoluteFill>
   );
 };
@@ -303,8 +299,8 @@ export const PetakaGunung: React.FC = () => {
       {(() => {
         const s = shotAt(f), sc = sceneOf(s), capLine = LINES.find((l) => l.mg && l.mg.startsWith("cap:") && l.scene === s.scene && s.a <= l.start && l.start < s.b);
         return (<>
-          {sc.snow ? <Kabut f={f} k={sc.snow} pagi={s.light === "golden"} /> : null}
-          <Vignette f={f} kuat={s.scene === "jumpscare" ? 0.5 : 1} />
+          {sc.snow ? <Kabut f={f} k={sc.snow * (E.kabut ?? 0.6)} pagi={s.light === "golden"} /> : null}
+          <Vignette f={f} kuat={(s.scene === "jumpscare" ? 0.5 : 1) * (E.vignette ?? 0.6)} />
           {sc.overlay === "kedip" ? <Kedip f={f} /> : null}
           {(sc as { letusan?: number }).letusan ? <Letusan f={f} k={(sc as { letusan?: number }).letusan!} /> : null}
           {(sc as { gas?: number }).gas ? <Gas f={f} k={(sc as { gas?: number }).gas! * Math.min(1, (f - s.a) / 45)} /> : null}
@@ -312,7 +308,7 @@ export const PetakaGunung: React.FC = () => {
           {capLine ? <Cap text={capLine.mg!.slice(4)} k={(f - s.a) / FPS} /> : null}
           {sc.hp ? <HpFoto spec={sc.hp} f={f} a={s.a} b={s.b} /> : null}
           {(MG as Record<string, string>)[s.scene] ? <MgClip s={s} /> : null}
-          {CAPTION && !(getInputProps() as { sampul?: boolean }).sampul && !(MG as Record<string, string>)[s.scene] && s.scene !== "pilihan" ? <Caption f={f} /> : null}
+          {CAPTION && !(getInputProps() as { sampul?: boolean }).sampul && !(MG as Record<string, string>)[s.scene] && s.scene !== "pilihan" ? <Caption f={f} pos={sc.capPos} /> : null}
         </>);
       })()}
       {f >= SPY.a && f < SPY.b && <AbsoluteFill style={{ background: "radial-gradient(circle at 50% 36%, rgba(0,0,0,0) 0, rgba(0,0,0,0) 470px, #120c14 486px)" }} />}
@@ -321,7 +317,7 @@ export const PetakaGunung: React.FC = () => {
       {f >= FLASH_AT + 4 && f < FLASH_AT + 16 && <AbsoluteFill style={{ background: "#7a0008", mixBlendMode: "multiply", opacity: 0.55 * (1 - (f - FLASH_AT - 4) / 12) }} />}
       {f < 100 && <AbsoluteFill style={{ alignItems: "center", paddingTop: 230, opacity: Math.min(1, (100 - f) / 12) }}>
         <div style={{ fontFamily: "Georgia, serif", fontWeight: 900, fontSize: 40, letterSpacing: 8, color: "#e8e0cc", textShadow: "0 3px 10px #000" }}>{E.seri ?? "NAMA SERIAL"} · EP.{E.ep}</div>
-        <div style={{ marginTop: 22, maxWidth: W * 0.84, background: "#ffd84a", color: "#141016", padding: "18px 30px", fontFamily: "Arial Black, Impact, sans-serif",
+        <div style={{ marginTop: 36, maxWidth: W * 0.84, background: "#ffd84a", color: "#141016", padding: "18px 30px", fontFamily: "Arial Black, Impact, sans-serif",
           fontSize: 58, lineHeight: 1.1, textAlign: "center", textTransform: "uppercase", boxShadow: "0 10px 30px rgba(0,0,0,0.6)",
           transform: `scale(${0.9 + 0.1 * Math.min(1, f / 6)}) rotate(-1.5deg)` }}>{(E as unknown as { hook?: string }).hook ?? E.judul}</div>
       </AbsoluteFill>}

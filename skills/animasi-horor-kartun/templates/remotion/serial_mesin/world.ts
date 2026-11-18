@@ -13,7 +13,7 @@ import { TONE, CHAR, untone } from "./shade";
 import { NOINK } from "./ink";
 import { Pool, Actor, Fx, stage } from "./cast";
 import { buildWorld, Ship } from "./island";
-import { FPS, SHOTS, camAt, FOREGROUND, ShotDef, SEA_Y, shipPose } from "./story";
+import { FPS, SHOTS, camAt, FOREGROUND, ShotDef, SEA_Y, shipPose, E } from "./story";
 
 // ---------------- assets ----------------
 const KENNEY = ["tree_oak", "tree_default", "tree_fat", "plant_bushLarge", "plant_bushDetailed", "plant_bush", "tree_cone", "stall-red", "stall-green", "stall-bench", "cart"];
@@ -193,7 +193,8 @@ export class World {
     const e = K.sky.e.map((deg) => THREE.MathUtils.degToRad(deg));
     su.e.value.set(e[1], e[2], e[3], e[4]);
     this.sky.position.copy(cam.position);
-    untone(L.fog, this.fog.color); this.fog.near = L.fogNear * (s.far ?? 1); this.fog.far = L.fogFar * (s.far ?? 1) * (s.far ? 1.6 : 1);
+    untone(L.fog, this.fog.color); const jk = E.jarakKabut ?? 1.6;   // kabut lebih jauh = gambar tidak abu-abu tertelan kabut
+    this.fog.near = L.fogNear * (s.far ?? 1) * jk; this.fog.far = L.fogFar * (s.far ?? 1) * (s.far ? 1.6 : 1) * jk;
     scene.fog = this.fog; scene.background = null;
     const showSun = true; // HOROR USA: bulan purnama
     this.sunDisc.visible = this.sunHalo.visible = showSun;

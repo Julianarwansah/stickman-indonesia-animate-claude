@@ -28,6 +28,8 @@ export const MAKAM: V3 = [-55, 0, -6];         // makam tua + sesajen
 export const JURANG_X = -95;
 export const POHON: V3 = [-90.4, 0, -4.4];    // pohon mati besar, rumah sosok (Musim 2)                   // tepi jurang (tanah berakhir di x < JURANG_X)
 export const X_STOP = 22;                      // titik tersesat Ep.1
+export const PURA: V3 = [-74, 0, -7];              // pura Bali (candi bentar + meru), di antara makam dan pohon mati
+export const SAWAH_X: [number, number] = [178, 214];  // sawah berundak sesudah desa (|z| 3..23)
 export const LAMPS: V3[] = [[64.6, 0, -4.2], [136, 0, -3.6], [151, 0, 3.4]];
 export const shipPose = (_id: number, _f: number): { pos: V3; yaw: number; ice: number } => ({ pos: [0, -200, 0], yaw: 0, ice: 0 });
 
@@ -38,12 +40,14 @@ export type TokohDef = { rupa: string; suara?: string[]; bicaraWajah?: Record<st
 export type SceneDef = {
   subj?: string | V3; az: number; dist: number; distTo?: number; distT?: number; push?: number; camH?: number; lookH?: number; dx?: number; dz?: number;
   fov?: number; hand?: number; roll?: number; fix?: boolean; light?: "day" | "golden"; snow?: number; hide?: string[]; back?: string[];
-  overlay?: "hitam" | "kedip"; letusan?: number; gas?: number; dof?: number; kick?: number; pose?: Record<string, Record<string, unknown>>; moonAz?: number;
+  overlay?: "hitam" | "kedip"; capPos?: "atas" | "bawah"; letusan?: number; gas?: number; dof?: number; kick?: number; pose?: Record<string, Record<string, unknown>>; moonAz?: number;
   bayangan?: { p: [number, number]; hantu?: boolean; len?: number; kepala?: boolean }[]; glitch?: { key: string; rupa: string };
   /** layar HP berisi foto: orang di foto (kiri ke kanan, depan), sosok di belakang, zoom (1 = utuh) ke titik fokus 0..1 */
   hp?: { depan: { rupa: string; w?: string }[]; belakang?: { rupa: string; x: number; w?: string; kanan?: Record<string, unknown>; kiri?: Record<string, unknown> }[]; zoom?: number; zoomTo?: number; fokus?: [number, number]; jam?: string };
 };
-export type EpDef = { ep: number; judul: string; seri?: string; stempel?: string; kartuJudul?: string; kartuBawah?: string; hook?: string; pilihan: { A: string; B: string }; menang?: string; lampu?: boolean;
+export type EpDef = { ep: number; judul: string; seri?: string; stempel?: string; kartuJudul?: string; kartuBawah?: string; kunci?: string[];
+  /** latar: gunungApi [x,z] | false, kawahMenyala, asapGunung, desa 'kayu' (default) | 'barat', kabut (0..1, default 0.6), vignette (default 0.6), jarakKabut (default 1.6) */
+  gunungApi?: [number, number] | false; kawahMenyala?: boolean; asapGunung?: boolean; desa?: "kayu" | "barat"; hutan?: "pinus" | "tropis" | "gundul"; tanah?: "hutan" | "abu" | "kering"; kabut?: number; vignette?: number; jarakKabut?: number; hook?: string; pilihan: { A: string; B: string }; menang?: string; lampu?: boolean;
   api?: [number, number][]; benda?: { jenis: "senter"; p: [number, number]; dari?: number | string; sampai?: number | string }[]; tokoh: Record<string, TokohDef>; scenes: Record<string, SceneDef> };
 export const E = EP as unknown as EpDef;
 
@@ -140,7 +144,9 @@ const hand = (t: number, k: number) => 0.012 * k * Math.sin(t * 1.7) + 0.007 * k
 export type Scene = SceneDef & { light?: Light };
 export const SCENES = E.scenes as Record<string, Scene>;
 const DEFAULT: Scene = { subj: [0, 0, 0], az: 180, dist: 10, overlay: "hitam" };
-export const sceneOf = (s: ShotDef): Scene => SCENES[s.scene] ?? (s.scene === "pilihan" || s.scene === "judul_hitam" ? DEFAULT : (console.warn("scene tanpa definisi: " + s.scene), DEFAULT));
+/** kartu pilihan tanpa definisi scene: pakai kamera shot sebelumnya (adegan 3D tetap bergerak samar di balik kartu), bukan layar hitam */
+const sebelumPilihan = (s: ShotDef): Scene | undefined => { for (let i = SHOTS.indexOf(s) - 1; i >= 0; i--) { const d = SCENES[SHOTS[i].scene]; if (d) return { ...d, overlay: undefined, letusan: 0, gas: 0, hp: undefined, glitch: undefined }; } return undefined; };
+export const sceneOf = (s: ShotDef): Scene => SCENES[s.scene] ?? (s.scene === "pilihan" ? sebelumPilihan(s) ?? DEFAULT : s.scene === "judul_hitam" ? DEFAULT : (console.warn("scene tanpa definisi: " + s.scene), DEFAULT));
 for (const s of SHOTS) { const sc = sceneOf(s); s.light = sc.light ?? "day"; if (sc.moonAz !== undefined) s.moonAz = sc.moonAz; }
 
 const ctxOf = (s: ShotDef, f: number): Ctx => { const T_ = (s.b - s.a) / FPS, t = (f - s.a) / FPS; return { f, t, T: T_, u: clamp01(t / Math.max(0.01, T_)), s }; };

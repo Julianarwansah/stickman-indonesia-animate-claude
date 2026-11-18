@@ -5,7 +5,8 @@ import { Batch, Kit, V, boxGeo, lam, prop, setSight, Ray, house } from "./build"
 import { ctex, rng } from "./paint";
 import { twoTone } from "./shade";
 import { NOINK } from "./ink";
-import { hh, V3, LAMPS, POS_HUT, X_STOP, BASECAMP, MAKAM, JURANG_X, POHON, E } from "./story";
+import { hh, V3, LAMPS, POS_HUT, X_STOP, BASECAMP, MAKAM, JURANG_X, POHON, E, PURA, SAWAH_X } from "./story";
+import { rumahKayu, gunungApi, pura, sawah } from "./latar_id";
 
 export const worldUV = <M extends THREE.MeshLambertMaterial>(m: M, tile: number, key: string): M => {
   const prev = m.onBeforeCompile.bind(m), prevKey = m.customProgramCacheKey.bind(m);
@@ -38,7 +39,9 @@ const speck = (key: string, base: string, a: string, b: string, n = 700) => ctex
   for (let k = 0; k < n; k++) { g.fillStyle = r() < 0.5 ? a : b; g.beginPath(); g.ellipse(r() * 512, r() * 512, 2 + r() * 6, 1.5 + r() * 3, r() * 3, 0, Math.PI * 2); g.fill(); }
 });
 const TXR = {
-  forest: () => speck("forestFloor", "#4a5a3c", "rgba(30,40,25,0.45)", "rgba(120,110,70,0.35)", 1400),
+  forest: () => E.tanah === "abu" ? speck("ashFloor", "#6e6a6c", "rgba(40,38,42,0.45)", "rgba(170,165,160,0.35)", 1400)    // abu vulkanik
+    : E.tanah === "kering" ? speck("dryFloor", "#8a7a52", "rgba(70,55,35,0.4)", "rgba(190,170,120,0.35)", 1400)              // savana kering (NTT)
+    : speck("forestFloor", E.hutan === "tropis" ? "#4e6a36" : "#4a5a3c", "rgba(30,40,25,0.45)", "rgba(120,110,70,0.35)", 1400),
   trail: () => speck("trailDirt", "#8a7458", "rgba(70,55,40,0.4)", "rgba(170,150,120,0.35)", 900),
 };
 
@@ -50,10 +53,10 @@ const CLEAR: { x: number; z: number; r: number }[] = [
   { x: POS_HUT[0], z: POS_HUT[2], r: 6.5 }, { x: 59, z: -2.5, r: 4.5 },
   { x: 6, z: -8, r: 1.6 }, { x: X_STOP - 9, z: -8.5, r: 1.8 }, { x: POHON[0], z: POHON[2], r: 5 },
 ];
-CLEAR.push({ x: MAKAM[0], z: MAKAM[2], r: 4.5 });
+CLEAR.push({ x: MAKAM[0], z: MAKAM[2], r: 4.5 }, { x: PURA[0], z: PURA[2] - 4, r: 9 });
 /** desa (x 122..172, |z| < 16) dan tepi jurang (x < JURANG_X + 6) bebas pohon */
 const blocked = (x: number, z: number, pad = 0) => Math.abs(z) < 2.6 + pad || CLEAR.some((c) => Math.hypot(x - c.x, z - c.z) < c.r + pad)
-  || (x > 122 && x < 172 && Math.abs(z) < 16) || x < JURANG_X + 6;
+  || (x > 122 && x < 172 && Math.abs(z) < 16) || (x > SAWAH_X[0] - 3 && x < SAWAH_X[1] + 3 && Math.abs(z) < 26) || x < JURANG_X + 6;
 
 export const buildWorld = (root: THREE.Object3D, kit: Kit, rays: Ray[]) => {
   setSight(rays);
@@ -95,11 +98,13 @@ export const buildWorld = (root: THREE.Object3D, kit: Kit, rays: Ray[]) => {
     b.add(new THREE.CylinderGeometry(0.06, 0.09, 2.4, 6).rotateZ(Math.PI / 2).rotateY(1.2 + r()), M.root, yawM(x, 0.04, 0.3 * (r() - 0.5)));
   }
   // pinus rapat (lebih tinggi menjauh dari jalur)
-  for (let i = 0; i < 1300; i++) {
+  for (let i = 0; i < (E.hutan === "gundul" ? 600 : 1300); i++) {
     const x = JURANG_X + r() * 330, z = (r() < 0.5 ? -1 : 1) * (3 + r() ** 0.8 * 55);
     if (blocked(x, z)) continue;
     const yb = Math.abs(z) > 22 ? Math.min(9.6, Math.floor((Math.abs(z) - 22) / 12 + 1) * 1.6) : 0;
-    prop(b, kit, "tree_cone", x, yb, z, 7 + r() * 9 + Math.abs(z) * 0.08, r() * 6);
+    if (E.hutan === "gundul") { if (r() < 0.25) { const h = 4 + r() * 4; b.add(new THREE.CylinderGeometry(0.08, 0.22, h, 6).translate(0, h / 2, 0), M.root, yawM(x, yb, z)); } continue; }   // sesudah letusan: batang mati saja
+    const jenis = E.hutan === "tropis" ? (r() < 0.5 ? "tree_fat" : r() < 0.5 ? "tree_oak" : "tree_default") : "tree_cone";
+    prop(b, kit, jenis, x, yb, z, (E.hutan === "tropis" ? 6 + r() * 6 : 7 + r() * 9) + Math.abs(z) * 0.08, r() * 6);
   }
   // beberapa pohon mati (gundul) dekat jalur: batang + dahan
   for (let i = 0; i < 26; i++) {
@@ -138,8 +143,13 @@ export const buildWorld = (root: THREE.Object3D, kit: Kit, rays: Ray[]) => {
   // desa / basecamp kaki gunung: dua deret rumah menghadap jalur, pos basecamp, papan nama
   for (let i = 0; i < 5; i++) {
     const x = 126 + i * 10;
-    if (Math.abs(x - BASECAMP[0]) > 3) house(b, x, -11 - hh(i, 7) * 2, 0, 7, 6, 3.4 + hh(i, 8), i + 1);
-    house(b, x + 4, 11 + hh(i, 9) * 2, Math.PI, 7, 6, 3.2 + hh(i, 6), i + 4);
+    if (E.desa === "barat") {
+      if (Math.abs(x - BASECAMP[0]) > 3) house(b, x, -11 - hh(i, 7) * 2, 0, 7, 6, 3.4 + hh(i, 8), i + 1);
+      house(b, x + 4, 11 + hh(i, 9) * 2, Math.PI, 7, 6, 3.2 + hh(i, 6), i + 4);
+    } else {   // desa Indonesia: rumah kayu panggung beratap genteng
+      if (Math.abs(x - BASECAMP[0]) > 3) rumahKayu(b, x, -10.5 - hh(i, 7) * 2, 0, 6.5, 5, i + 1);
+      rumahKayu(b, x + 4, 10.5 + hh(i, 9) * 2, Math.PI, 6.5, 5, i + 4);
+    }
   }
   house(b, BASECAMP[0], BASECAMP[2] - 2, 0, 9, 6, 3.6, 0);
   b.add(boxGeo(V(-0.06, 0, -0.06), V(0.06, 2.2, 0.06)), M.wood, yawM(124, 0, -2.2));
@@ -153,7 +163,10 @@ export const buildWorld = (root: THREE.Object3D, kit: Kit, rays: Ray[]) => {
   }
   for (let i = 0; i < 9; i++) b.add(new THREE.SphereGeometry(0.07, 8, 6), i % 2 ? flower : flowerY, yawM(MAKAM[0] + 1.2 + (i % 3) * 0.16, 0.05, MAKAM[2] + 0.6 + Math.floor(i / 3) * 0.16));
   b.add(new THREE.CylinderGeometry(0.06, 0.08, 0.12, 10), lam("incense", () => ({ color: "#4a3a2a" })), yawM(MAKAM[0] + 0.7, 0.06, MAKAM[2] + 0.7));
+  pura(b);
+  sawah(b);
   b.build(root);
+  gunungApi(root);
   // siluet puncak gunung (tidak terkena kabut) di kedua arah pandang
   const mtn = new THREE.MeshBasicMaterial({ color: "#0e1322", fog: false });
   const mtn2 = new THREE.MeshBasicMaterial({ color: "#151b2e", fog: false });

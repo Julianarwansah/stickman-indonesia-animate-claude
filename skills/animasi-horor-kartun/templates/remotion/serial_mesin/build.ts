@@ -3,7 +3,7 @@
 // hills and CC0 Kenney props (trees, lanterns, stalls, hedges).
 import * as THREE from "three";
 import { mergeGeometries } from "three/examples/jsm/utils/BufferGeometryUtils.js";
-import { D0 } from "./story";
+import { D0, E } from "./story";
 import { brick, rng, ctex, rep, facadeHD, roofHD, stoneHD } from "./paint";
 import { twoTone } from "./shade";
 
@@ -265,7 +265,8 @@ const VEG: Record<string, VegKind> = {
   tree_oak: "round", tree_default: "round", tree_detailed: "round", tree_fat: "fat", "tree-high-round": "tall", tree: "tall",
   tree_cone: "cone", plant_bushLarge: "bush", plant_bushDetailed: "bush", plant_bush: "bush", hedge: "hedge",
 };
-const LEAF = ["#2f5a3e", "#284f38", "#345f44", "#2a5640", "#24493a"]; // PETAKA GUNUNG: pinus gelap
+const LEAF = E.hutan === "tropis" ? ["#4f8a3a", "#5a9a40", "#467e36", "#62a248", "#3f7432"]   // hutan tropis: hijau terang hangat
+  : ["#2f5a3e", "#284f38", "#345f44", "#2a5640", "#24493a"]; // PETAKA GUNUNG: pinus gelap
 /** canopy paint (equal px per metre on a unit sphere: 256 around x 128 pole to pole): light crown, darker belly,
  *  soft leaf-clump dabs (kept low contrast: the two-tone sun term does the main modelling) */
 const leafTex = (i: number) => ctex("leafHD" + i, 256, 128, (g, r) => {

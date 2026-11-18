@@ -22,7 +22,7 @@ Pilih di `format.ts` folder video (`W`, `H`); kartu tokoh, tinta, lensa, salju, 
 - `<proyek>/<ep>/youtube.txt` — 3 pilihan judul, deskripsi, timestamp bab, hashtag (di deskripsi), tag (tanpa #), kredit suara.
 
 ## Aturan dari user (pegang ini, alasannya penting)
-1. **Bentuk tokoh tetap** (`templates/tokoh/tokoh.ts`): kepala bulat polos tanpa telinga, leher kecil panjang, badan kotak setinggi 1 kepala, lengan & kaki tabung, tangan bulat seperti sarung tangan, sepatu pipih, garis ungu tua tebal, kulit pucat, ±4,4 kepala. User menolak desain lain ("jelek", "jangan dirubah-rubah bentuknya"). Ganti hanya baju, warna, rambut, pose.
+1. **Bentuk tokoh tetap** (ditegaskan lagi 18 Nov 2026: user suka bentuknya) (`templates/tokoh/tokoh.ts`): kepala bulat polos tanpa telinga, leher kecil panjang, badan kotak setinggi 1 kepala, lengan & kaki tabung, tangan bulat seperti sarung tangan, sepatu pipih, garis ungu tua tebal, kulit pucat, ±4,4 kepala. User menolak desain lain ("jelek", "jangan dirubah-rubah bentuknya"). Ganti hanya baju, warna, rambut, pose.
 2. **Lengan menyambung ke tangan**: lengan baju pendek, kulit lengan langsung jadi tangan tanpa manset (lengan panjang + manset membuat tangan tampak terlepas).
 3. **Latar = dunia 3D repo cartoon-3d-shorts** (rumah, pelabuhan, kolam beku, pinus) — "karakternya saja, latarnya tetap".
 4. **Suara**: Supertonic 3 (bukan edge-tts/Kokoro). Narator **M5 terkunci**. Suara tokoh dipilih sesuai karakter dan **tidak boleh datar seperti AI** → intonasi per kalimat + emosi (lihat `references/suara-sfx.md`). Suara yang sudah dikunci tidak diaudisi ulang; tokoh baru diaudisi (2 calon, user memilih dengan telinga).
@@ -30,7 +30,7 @@ Pilih di `format.ts` folder video (`W`, `H`); kartu tokoh, tinta, lensa, salju, 
 6. **Cepat jadi lebih penting dari sempurna**: satu putaran cek yang jujur, perbaiki yang jelas rusak.
 7. Pesan ke user singkat, bahasa Indonesia. Isi video bahasa Inggris (penonton AS) — kecuali mode Serial Indonesia.
 8. **Jangan render bila user bilang jangan** ("jangan lakukan render apapun"); cukup siapkan sampai stills/QA data. Render lama boleh dihentikan bila user minta ("kalau lama nanti saja").
-9. **Serial Indonesia**: tiap episode diakhiri pilihan A/B (A = tamat, B = lanjut, **tidak pernah ditulis**; dijawab lewat animasi episode berikutnya), CTA halus ("jangan alay"), SFX cocok dengan tiap adegan, tokoh punya ciri khas lewat aksesori saja, hook ≤ 3 dtk + open loop, 45–55 dtk. Kisah nyata: hanya narator (tidak mengarang ucapan orang nyata), min. 2 sumber, tanpa jumpscare.
+9. **Serial Indonesia**: tiap episode diakhiri pilihan A/B (A = tamat, B = lanjut, **tidak pernah ditulis**; dijawab lewat animasi episode berikutnya), CTA halus ("jangan alay"), SFX cocok dengan tiap adegan, tokoh punya ciri khas lewat aksesori saja, hook ≤ 3 dtk + open loop, 45–55 dtk. Kisah nyata: hanya narator (tidak mengarang ucapan orang nyata), min. 2 sumber, tanpa jumpscare. **Pemeran & latar per cerita**: tiap cerita punya pemeran sendiri (`pemeran` di adegan JSON, lembar `dokumen/pemeran_epN.md`) kecuali tokoh utama serial yang dikunci; latar sesuai tempat & zaman (`hutan`, `tanah`, `desa`, `gunungApi`, set baru di `latar_id.ts`) — jangan memakai tempat yang salah.
 10. Kunci API (ElevenLabs dll.) hanya di `<proyek>/.env`; jangan pernah diulang di chat atau log.
 
 ## Peta skill
@@ -136,7 +136,9 @@ Episode baru = `naskah/epN.json` + `adegan/epN.json` + `epN/sfx_epN.py`; mesin t
 | Still gagal "Webpack configuration schema" | `scripts/stills.mjs` di Node 24 | `npx remotion still ... --gl=angle` |
 | Psikopat tidak terlihat | tiang kanopi di antara kamera dan tokoh | kamera ke sisi kosong; cek still |
 | Subtitle "aneh" (loncat, tidak sinkron) | jendela 5 kata bergeser + waktu tebakan huruf | `kata.py` + halaman frasa tetap di `serial_mesin` |
+| Caption memotong nama/tanggal, kuning berkedip, menutupi wajah | potong buta 3 kata, kuning = kata aktif | `caption.ts` (unit makna) + kuning kata kunci + `capPos` |
 | Klip TTS Cepat diawali 1 dtk hening | bawaan engine | `TRIM` silenceremove RMS -35 dB di `suara_tts_cepat.py` |
 | Render potret keluar separuh | Chrome kehabisan memori | `KN_CONC=2`; `render_ep.sh` berhenti bila potongan hilang |
 | Tokoh-tokoh tampak kembar | rupa hanya beda warna | aksesori `topi`/`sanggul`/`selendang`/`ransel`/`kumis`/`jenggot`/`dasi` (serial_mesin) |
+| Latar tidak cocok cerita Indonesia | dunia hanya rumah barat + pinus | `latar_id.ts` (gunung api, pura, rumah kayu, sawah) + `desa`/`gunungApi` di ep.json |
 | Lebih banyak jebakan serial Indonesia | | tabel di `references/serial-indonesia.md` |
