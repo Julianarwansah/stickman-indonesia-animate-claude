@@ -1,9 +1,18 @@
+# Isyarat efek KISAH NYATA Ep.13 (mix v2). Lapisan otomatis (whoosh antar scene, riser, api unggun, room tone) sudah jalan sendiri.
 exec(open(os.path.join(PROJ, "suara", "sfx_umum.py")).read())
-place("fs-423647", t0("a02"), -24, dur=t0("a04") - t0("a02"), loop=True, fin=1.5, fout=1.0)  # gamelan upacara
-place("fs-131348", t0("a02", 0.2), -20, dur=6, fout=2.0)                                   # genta
-place("fs-514381", t0("a03"), -24, dur=t0("a04") - t0("a03"), loop=True, fin=1.5, fout=0.2)  # gunung bergemuruh
-place("fs-177556", t0("a04"), -10, dur=6, fin=0.0, fout=2.0)                               # letusan
-place("fs-514381", t0("a04"), -16, dur=t1("a05") - t0("a04"), loop=True, fin=0.2, fout=1.5)
-place("fs-117610", t0("a05"), -24, dur=t1("a06") - t0("a05"), bus=bus_amb, loop=True, fin=1.0, fout=1.0)  # langit gelap
-place("fs-222636", t0("a07"), -26, dur=t1("a07") - t0("a07"), bus=bus_amb, loop=True, fin=1.5, fout=1.0)  # pagi
-place("fs-131348", t0("a07", 0.4), -22, dur=6, fout=2.0)
+# 1. suasana per scene (setiap scene punya suara tempatnya)
+suasana({
+    "pura":        "fs-423647",            # gamelan upacara
+    "pemangku":    ("fs-423647", -28),
+    "letusan":     ("fs-514381", -16),      # gemuruh gunung
+    "gelap":       ("fs-117610", -22),      # angin abu
+    "desa_kosong": ("fs-117610", -26),
+    "pura_pagi":   "fs-222636",             # pagi desa
+})
+# 2. aksen tepat di kata (waktu kata dari kata.py)
+hit("a02", "Pura", "fs-131348", -20, pan=-0.3, dur=6)        # genta pura
+place("fs-514381", t0("a03"), -24, dur=t1("a03") - t0("a03"), loop=True, fin=1.0, fout=0.3)   # gunung bergemuruh di bawah narasi
+hit("a04", "puncak", "fs-177556", -9, dur=6)                  # letusan
+hit("a04", "puncak", "fs-648536", -14, pan=0.2)               # hantaman sinematik
+hit("a06", "meninggal", "fs-149966", -16, dur=3)              # dentum teredam
+hit("a07", "dituntaskan", "fs-131348", -22, pan=0.3, dur=6)   # genta penutup

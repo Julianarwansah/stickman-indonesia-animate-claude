@@ -161,7 +161,14 @@ atau tampilkan lewat layar HP/kartu/motion-graphics — **jangan mengganti denga
 - Dasar per serial di `sfx_umum_*.py`, dipanggil dari isyarat episode: `exec(open(os.path.join(PROJ,"suara","sfx_umum.py")).read())` (mix.py menyediakan `os`, `PROJ`, `tl`).
 - **SFX harus cocok dengan adegan** (aturan user): tiap scene diberi suasana sendiri (angin puncak, jangkrik desa, mesin tambang, kabin pesawat...).
 - Horor fiksi: jumpscare di `j01` (-3 dB) + detak jantung menjelang. Kisah nyata: **tanpa jumpscare**, nada hormat (dengung gelap pelan, gamelan lirih di kartu).
-- Keras akhir ±-16 LUFS walau target -14: puncak dibatasi -4,5 dBTP (sama di kedua serial, diterima).
+- **Mesin mix v2** (`suara/mix.py`, keluhan user "sfx masih kurang"): stereo, -14 LUFS / puncak -1 dBTP (dua tahap loudnorm linear),
+  loop tanpa klik, dan **lapisan otomatis** dari timeline + adegan JSON:
+  whoosh lembut di tiap pergantian scene (kiri/kanan bergantian) · riser yang berakhir tepat di stempel/`j01`/`p01` · api unggun bila kamera dekat `api` ·
+  langkah kaki saat tokoh `jalan`/`lari` · room tone tipis sepanjang video. Atur dengan `OTO_DB = {...}` atau matikan `OTOMATIS = False` di isyarat.
+- **Setiap scene wajib punya suasana tempatnya** — pakai `suasana({"pura": "fs-423647", "letusan": ("fs-514381", -18), ...})` (crossfade antar scene).
+- **Aksen tepat di kata**: `hit("a04", "meletus", "fs-177556", -10)` memakai waktu kata whisper (`kata.py` harus sudah jalan).
+- Kepadatan target: ±1 lapisan suasana per scene + 1 aksen per 4–6 dtk + lapisan otomatis. Kurang dari itu = terasa kosong.
+- Uji mix tanpa menimpa: `--out mix_uji.wav`; bandingkan dengan telinga user sebelum render.
 
 | Suasana | id | Suasana | id |
 |---|---|---|---|
@@ -181,6 +188,10 @@ atau tampilkan lewat layar HP/kartu/motion-graphics — **jangan mengganti denga
 | hutan | fs-121965 | mesin tambang | fs-212781 |
 | kabin pesawat | fs-418385 | alarm kokpit | fs-57806 |
 | radio | fs-17804 | mendarat | fs-510482 |
+| whoosh lembut (transisi) | fs-521043, fs-521042 | riser cymbal terbalik | fs-240712 |
+| api unggun | fs-350757 | room tone | fs-144046 |
+| langkah jalan tanah | fs-203178 | langkah lari tanah | fs-210866 |
+| hantaman sinematik | fs-648536 | kain bergesek | fs-334219 |
 | lari + napas | fs-630011, fs-163383 | bisikan | fs-680839, fs-193812 |
 
 ## Render & QA
@@ -201,6 +212,7 @@ Unggah/jadwal hanya bila user meminta.
 | Kuning berkedip pindah-pindah | kuning = kata aktif | kuning = kata kunci tetap (sudah) |
 | Caption menutupi wajah | posisi tetap 26 % dari bawah | 22 % + `capPos: "atas"` per scene; wajah di 15–55 % tinggi |
 | Kartu A/B ±15 dtk statis | naskah p01/p02 panjang + jeda 2,2 | kartu ≤ 8 dtk, adegan 3D di balik kartu (sudah) |
+| SFX terasa kosong/datar | mono, ±15 efek per 55 dtk, tanpa transisi/foley, LRA 2,8, -16 LUFS | mix v2: stereo, lapisan otomatis, `suasana`, `hit`, -14 LUFS (sudah) |
 | Subtitle loncat & tidak sinkron | jendela kata bergeser + waktu tebakan + hening awal | `kata.py` + halaman frasa tetap + `TRIM` (sudah) |
 | Sorotan selalu lebih cepat dari suara | ±1 dtk hening awal klip TTS Cepat | silenceremove RMS -35 dB (sudah) |
 | Durasi 60–66 dtk padahal naskah pas | hening TTS ikut dihitung | potong hening; padatkan baris bila masih > 55 dtk |
