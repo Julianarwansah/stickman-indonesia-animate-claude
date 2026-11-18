@@ -200,6 +200,34 @@ atau tampilkan lewat layar HP/kartu/motion-graphics — **jangan mengganti denga
 - Lembar kontak: stills per shot → `python kontak.py out/x_ out/kontak.jpg` → buka dengan Read dan periksa setiap shot.
 - Jangan ubah `<Seri>Root.tsx`/folder `<seri>_epN` saat render berjalan (bundel dibuat ulang tiap potongan).
 
+## Sampul yang memancing klik (keluhan user: "sampul masih jelek, pastikan orang mengklik")
+Sampul lama = frame acak dari video dengan subtitle terbakar, wajah datar, tanpa teks/branding → jangan diulang.
+Sekarang sampul **digambar** dengan tokoh yang sama (`templates/serial_id/sampul/sampul.ts`, `@napi-rs/canvas`, **tanpa render Remotion** — aman
+dijalankan saat render lain berjalan). Contoh hasil: `docs/contoh_sampul.jpg`.
+
+**Resep (riset CTR thumbnail)**
+1. **Satu fokus**: wajah tokoh BESAR (kepala ±1/3 lebar layar) dengan emosi berlebihan — `teriak`, `kaget`, `cemas`. Hindari `datar`; `takut` terbaca seperti senyum.
+2. **Celah penasaran**: ancaman terlihat **sebagian** (sosok gelap di balik bahu, wajah tertutup rambut, siluet), diberi **lingkaran merah + panah**.
+   Pertanyaan yang tak terjawab di sampul > menjelaskan semuanya ("Mana yang asli?" dengan lencana A/B, bukan Sinta palsu yang menyeringai).
+3. **Teks 2–4 kata**, huruf tebal kuning bergaris hitam tebal, satu kata kunci di kotak merah. **Melengkapi judul**, tidak mengulang.
+   Pasangan kata yang tak boleh pecah baris pakai spasi tak putus (`Pos\u00a03`).
+4. **Kontras tinggi**: latar malam gelap + bulan + pinus, cahaya merah dari bawah, pendar pucat di belakang siluet (pohon/sosok) supaya bentuknya terbaca.
+5. **Area aman**: teks y 330–850, wajah y 900–1500; hindari 25 % bawah dan 15 % kanan (tombol YouTube). Label serial + EP di kiri atas (konsisten tiap episode).
+6. **Uji ukuran kecil**: perkecil ke 270×480 (±25 %) — teks harus terbaca dan wajah dikenali; kalau tidak, perbesar.
+7. **Jujur**: semua yang tampak (sosok, HP, pohon, nisan) benar-benar ada di episodenya — klik yang menipu menurunkan durasi tonton.
+8. Variasikan tata letak antar episode (tokoh kiri/kanan, HP, dua tokoh + A/B, siluet) supaya rak kanal tidak monoton.
+
+**Cara pakai**
+```
+cd templates/serial_id/sampul && npm install            # sekali
+TOKOH=$REMO_DIR/src/videos/<seri>_mesin/tokoh.ts node sampul.ts <proyek>/sampul/spek_sampul.json <proyek>/sampul [ep...]
+```
+Spek per episode (contoh lengkap 21 episode: `contoh_spek_petaka_gunung.json`):
+`ep, seri, teks, kunci[]`, `latar` (hutan/makam/pos/jurang/desa), `pohonMati`, `api [x,y]`, `bulan [x,y]`,
+`tokoh[]` / `depan[]` = `{rupa, wajah, x, y, s, lihat, kanan, kiri, gelap 0..1, cahaya}` (x,y = pusat kepala, s = skala; 3.3–3.5 = wajah utama, 1.6–2.1 = sosok di belakang),
+`hp {x,y,w,h,jam,isi[]}` (foto di layar HP), `lingkar[] {x,y,rx,ry}`, `panah[] {dari,ke}`, `huruf[] {t,x,y}` (lencana A/B), `tanya[] [x,y]`, `warna` (aksen).
+Rupa per episode (`pemeran` di ep.json) ikut terbaca otomatis (`EP_JSON`). Setelah membuat: buka lembar 25 % dengan Read dan periksa tiap sampul.
+
 ## Paket unggah
 `dokumen/DESKRIPSI_EPN.md` (contoh: `examples/serial_id/kisah_nyata_ep13/DESKRIPSI_EP13.md`): judul YouTube (≤ 60 huruf + `#shorts`),
 judul Reels/TikTok, deskripsi singkat, 5–7 hashtag, sumber (kisah nyata), **komentar sematan** voting A/B. Unggah malam 19.00–22.00.
@@ -213,6 +241,7 @@ Unggah/jadwal hanya bila user meminta.
 | Caption menutupi wajah | posisi tetap 26 % dari bawah | 22 % + `capPos: "atas"` per scene; wajah di 15–55 % tinggi |
 | Kartu A/B ±15 dtk statis | naskah p01/p02 panjang + jeda 2,2 | kartu ≤ 8 dtk, adegan 3D di balik kartu (sudah) |
 | SFX terasa kosong/datar | mono, ±15 efek per 55 dtk, tanpa transisi/foley, LRA 2,8, -16 LUFS | mix v2: stereo, lapisan otomatis, `suasana`, `hit`, -14 LUFS (sudah) |
+| Sampul tidak diklik | frame acak + subtitle terbakar, wajah datar, tanpa teks | `sampul.ts`: wajah besar beremosi, ancaman sebagian + lingkaran merah, teks 2–4 kata (sudah) |
 | Subtitle loncat & tidak sinkron | jendela kata bergeser + waktu tebakan + hening awal | `kata.py` + halaman frasa tetap + `TRIM` (sudah) |
 | Sorotan selalu lebih cepat dari suara | ±1 dtk hening awal klip TTS Cepat | silenceremove RMS -35 dB (sudah) |
 | Durasi 60–66 dtk padahal naskah pas | hening TTS ikut dihitung | potong hening; padatkan baris bila masih > 55 dtk |

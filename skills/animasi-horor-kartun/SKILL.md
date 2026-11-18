@@ -54,6 +54,7 @@ Pilih di `format.ts` folder video (`W`, `H`); kartu tokoh, tinta, lensa, salju, 
 | `references/serial-indonesia.md` | **mode Serial Indonesia**: urutan wajib, naskah & A/B, suara (TTS Cepat / ElevenLabs), caption sinkron, skema adegan JSON, ciri khas tokoh, katalog SFX, render, unggah, jebakan |
 | `templates/remotion/serial_mesin/` | mesin serial data-driven (adegan JSON, hook kuning, stempel, letusan/gas, HP berisi foto, kartu A/B + CTA, caption frasa, tokoh beraksesori) |
 | `templates/serial_id/` | `suara/suara_tts_cepat.py`, `suara/suara_elevenlabs.py` + `elevenlabs.py`, `suara/kata.py` (waktu kata whisper), `suara/mix.py`, `suara/sfx_umum_horor.py`, `suara/sfx_umum_kisah.py`, `mk_ep.sh`, `render_ep.sh`, `kontak.py` |
+| `templates/serial_id/sampul/` | `sampul.ts` — sampul Shorts yang memancing klik, digambar dengan tokoh yang sama (tanpa render); resep di `references/serial-indonesia.md` |
 | `examples/serial_id/` | `petaka_gunung_ep2/` (horor multi-tokoh, jumpscare, A/B) dan `kisah_nyata_ep13/` (narator, letusan, stempel, deskripsi unggah) |
 
 ## Alur kerja
@@ -102,7 +103,7 @@ $SUARA_PY suara/mix.py epN epN/sfx_epN.py --lufs -14
 npx remotion still src/<seri>-index.ts <COMP>N out/x.jpg --frame=F --gl=angle   # cek
 ./render_ep.sh N                                          # hanya bila user setuju; KN_CONC=2 bila gagal
 ```
-Episode baru = `naskah/epN.json` + `adegan/epN.json` + `epN/sfx_epN.py`; mesin tidak diubah. Sampul: still dengan `--props='{"sampul":true}'`.
+Episode baru = `naskah/epN.json` + `adegan/epN.json` + `epN/sfx_epN.py`; mesin tidak diubah. **Sampul**: `templates/serial_id/sampul/sampul.ts` (wajah besar beremosi, ancaman sebagian + lingkaran merah, teks 2–4 kata) — bukan frame video.
 
 ## Format potret (Shorts / Reels / TikTok)
 - **Naskah**: 120–220 kata, satu ketegangan saja; hook di 2 detik pertama (kalimat paling seram dulu, mis. "He only follows you if you look at him."), tanpa kartu judul 5 dtk (cukup 1,5 dtk atau langsung adegan), bab dihapus atau 1 kartu; akhir menggantung → ajakan "Part 2". Bisa juga memotong episode panjang jadi 3–4 Shorts (cerita yang sama, naskah dipadatkan).
