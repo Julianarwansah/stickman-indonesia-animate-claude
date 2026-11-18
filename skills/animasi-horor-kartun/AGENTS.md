@@ -5,6 +5,10 @@ Panduan ini berlaku untuk agen AI apa pun (Claude, Codex, Cursor, Gemini, dll.).
 ## Tujuan
 Membuat video animasi horor kartun: tokoh kartun kepala bulat di dunia 3D malam bersalju, naskah bahasa Inggris untuk penonton Amerika. Dua format: 16:9 (YouTube panjang, -16 LUFS) dan 9:16 (Shorts/Reels/TikTok, -14 LUFS).
 
+## Dua mode
+- **Horor USA** (bahasa Inggris, Supertonic): urutan kerja di bawah.
+- **Serial Indonesia** (Shorts bahasa Indonesia: PETAKA GUNUNG, KISAH NYATA NUSANTARA): baca `references/serial-indonesia.md`. Urutan wajib: suara → `kata.py` → `mix.py` → `mk_ep.sh` → stills → `render_ep.sh`. Format pilihan A/B (A = tamat, B = lanjut, tidak ditulis), CTA halus, SFX cocok adegan, tokoh dibedakan lewat aksesori saja. Suara: ElevenLabs (multi-tokoh) atau Aplikasi TTS Cepat (narator lokal) — aturan Supertonic di bawah hanya untuk mode Horor USA.
+
 ## Sebelum mulai
 1. Pastikan variabel lokasi terisi (lihat `references/setup.md`): `REMO_DIR` (proyek Remotion), `SUARA_PY` (python venv Supertonic), dan `CHROME_PATH` (opsional).
 2. Jangan menulis path komputer tertentu ke skrip. Gunakan variabel itu.
@@ -24,6 +28,7 @@ Membuat video animasi horor kartun: tokoh kartun kepala bulat di dunia 3D malam 
 - **Suara takut**: vibrato 0,05, bukan 0,18 (0,18 terdengar robot).
 - **Sinkron**: jika durasi klip berubah, jalankan `templates/suara/samakan_durasi.py` sebelum mux. Lihat `references/suara-sfx.md`.
 - **Render panjang dipecah** per menit dan aman kalau terhenti. Jangan menjalankan dua render untuk episode yang sama. Cek proses lama dulu.
+- **Jangan render** bila user melarang; render hanya setelah user setuju.
 - **Upload dan jadwal publikasi** hanya setelah user meminta. Jangan mengunggah otomatis.
 - Fiksi orisinal. Tanpa darah, kekerasan kartun saja.
 

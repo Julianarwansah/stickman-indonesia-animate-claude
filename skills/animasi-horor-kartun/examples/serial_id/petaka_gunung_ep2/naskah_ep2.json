@@ -1,0 +1,129 @@
+{
+ "judul": "Petaka Gunung Ep.2 — Jangan Menoleh",
+ "catatan": "Jalur B. who: narator|raka|sinta|sosok|kakek|jaka|mbah; k = kartu yang bicara.",
+ "baris": [
+  {
+   "id": "r01",
+   "scene": "lari_kabut",
+   "who": "narator",
+   "emo": "seram",
+   "text": "Kebanyakan dari kalian memilih B. Raka tidak menoleh."
+  },
+  {
+   "id": "r02",
+   "scene": "belakang_raka",
+   "who": "sosok",
+   "emo": "bisik",
+   "text": "Rak... tungguin aku...",
+   "k": "F",
+   "jeda": 0.6
+  },
+  {
+   "id": "r03",
+   "scene": "kaki_lari",
+   "who": "narator",
+   "emo": "bisik",
+   "text": "Langkah di belakangnya makin cepat. Makin dekat."
+  },
+  {
+   "id": "r04",
+   "scene": "raka_lari_cu",
+   "who": "raka",
+   "emo": "takut",
+   "text": "Jangan nengok... jangan nengok...",
+   "jeda": 0.3
+  },
+  {
+   "id": "r05",
+   "scene": "gerbang",
+   "who": "narator",
+   "emo": "seram",
+   "text": "Di gerbang basecamp, seseorang menangkap bahunya.",
+   "mg": "cap:Basecamp — 06:02"
+  },
+  {
+   "id": "r06",
+   "scene": "jaka_cu",
+   "who": "jaka",
+   "emo": "marah",
+   "text": "Hei! Kenapa lari-lari, Dik?"
+  },
+  {
+   "id": "r07",
+   "scene": "raka_cu",
+   "who": "raka",
+   "emo": "teriak",
+   "text": "Ada yang ngikutin saya, Bang! Jangan lihat ke belakang!",
+   "jeda": 0.3
+  },
+  {
+   "id": "r08",
+   "scene": "jalur_kosong",
+   "who": "narator",
+   "emo": "bisik",
+   "text": "Jaka menatap jalur di belakang Raka.",
+   "jeda": 0.6
+  },
+  {
+   "id": "r09",
+   "scene": "jaka_cu2",
+   "who": "jaka",
+   "emo": "netral",
+   "text": "Nggak ada siapa-siapa.",
+   "jeda": 0.4
+  },
+  {
+   "id": "r10",
+   "scene": "hp_foto",
+   "who": "raka",
+   "emo": "takut",
+   "text": "Bang... lihat foto ini. Semalam, di Pos tiga."
+  },
+  {
+   "id": "r11",
+   "scene": "hp_foto",
+   "who": "narator",
+   "emo": "bisik",
+   "text": "Di foto itu ada tiga orang. Raka. Sinta. Dan seseorang berambut panjang, tepat di belakang Sinta.",
+   "jeda": 0.5
+  },
+  {
+   "id": "r12",
+   "scene": "jaka_takut",
+   "who": "jaka",
+   "emo": "takut",
+   "text": "Pos tiga? Pos itu sudah ditutup sepuluh tahun. Penjaganya meninggal di sana.",
+   "jeda": 0.5
+  },
+  {
+   "id": "r13",
+   "scene": "kakek_kilas",
+   "who": "narator",
+   "emo": "bisik",
+   "text": "Lalu... siapa kakek yang menyambut mereka semalam?",
+   "jeda": 0.6
+  },
+  {
+   "id": "j01",
+   "scene": "jumpscare_kakek",
+   "who": null,
+   "dur": 1.3
+  },
+  {
+   "id": "p01",
+   "scene": "pilihan",
+   "who": "narator",
+   "emo": "seram",
+   "text": "Apa pilihanmu? A... Raka menghapus foto itu. B... Raka memperbesar foto itu. Tulis A atau B di komentar.",
+   "jeda": 0.3
+  },
+  {
+   "id": "p02",
+   "scene": "pilihan",
+   "who": "narator",
+   "emo": "bisik",
+   "text": "Follow... supaya kamu tahu siapa yang ada di foto itu.",
+   "jeda": 2.4
+  }
+ ]
+}

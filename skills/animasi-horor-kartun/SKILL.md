@@ -1,9 +1,11 @@
 ---
 name: animasi-horor-kartun
-description: Membuat video animasi horor kartun lengkap dari nol sampai siap unggah YouTube — tokoh kartun kepala bulat (gaya stickman/kartun horor) di dunia 3D malam bersalju, naskah bahasa Inggris untuk penonton Amerika, suara tiap tokoh dengan emosi (Supertonic 3), sisipan motion-graphics (mesin motion-broll Barty-Bart), efek suara CC0 (Lots of Sounds API), mixing -16 LUFS, render 16:9 per potongan yang aman kalau terhenti, pengecekan otomatis, subtitle, judul/deskripsi/tag, dan foto profil kanal. Pakai skill ini setiap kali user minta episode baru serial Horor USA ("The Smiling Man", Maple Hollow, Jake & Emily), video/animasi horor kartun panjang atau pendek, cerita "dikejar psikopat/pembunuh bertopeng", animasi stickman horor, tokoh horor baru dengan bentuk badan yang sama, suara tokoh horor yang tidak datar, atau perbaikan video horor yang sudah dibuat — walau user tidak menyebut nama skill.
+description: Membuat video animasi horor kartun 3D lengkap sampai siap unggah — tokoh kartun kepala bulat (gaya stickman horor) di dunia 3D malam bersalju. Dua mode: (1) Horor USA, bahasa Inggris, Supertonic, 16:9 atau Shorts; (2) Serial Indonesia Shorts 9:16 — PETAKA GUNUNG (horor pendaki, multi-tokoh, ElevenLabs) dan KISAH NYATA NUSANTARA (kisah nyata, narator lokal Aplikasi TTS Cepat) dengan mesin adegan JSON, kartu pilihan A/B, caption per frasa sinkron (whisper), ciri khas tokoh, efek suara CC0, mixing, render berpotongan, QA, sampul dan teks unggah. Pakai setiap kali user minta episode baru serial-serial itu, animasi/video horor kartun, tokoh horor baru dengan bentuk badan sama, suara tokoh yang tidak datar, perbaikan subtitle/suara/video yang sudah dibuat, atau serial kisah nyata Indonesia bergaya animasi 3D — walau user tidak menyebut nama skill.
 ---
 
-# Animasi horor kartun (pipeline Horor USA)
+# Animasi horor kartun (pipeline Horor USA + Serial Indonesia)
+
+**Dua mode.** (1) **Horor USA** — bahasa Inggris, Supertonic, koreografi di `story.ts` (isi file ini). (2) **Serial Indonesia** — Shorts 9:16 bahasa Indonesia, mesin data-driven `templates/remotion/serial_mesin` (adegan JSON), ElevenLabs atau Aplikasi TTS Cepat, caption sinkron whisper, format pilihan A/B. Untuk mode 2 baca **`references/serial-indonesia.md`** dulu; aturan bentuk tokoh di bawah tetap berlaku.
 
 Skill ini membungkus pipeline yang sudah terbukti di **Horor USA Ep.1 "The Smiling Man of Maple Hollow"** (8:15, 1920x1080, YouTube, penonton AS). Semua kode ada di `templates/`, contoh lengkap Ep.1 di `examples/ep1/`. Episode baru = naskah baru + koreografi/kamera baru + isyarat efek suara baru; mesinnya tetap.
 
@@ -26,7 +28,10 @@ Pilih di `format.ts` folder video (`W`, `H`); kartu tokoh, tinta, lensa, salju, 
 4. **Suara**: Supertonic 3 (bukan edge-tts/Kokoro). Narator **M5 terkunci**. Suara tokoh dipilih sesuai karakter dan **tidak boleh datar seperti AI** → intonasi per kalimat + emosi (lihat `references/suara-sfx.md`). Suara yang sudah dikunci tidak diaudisi ulang; tokoh baru diaudisi (2 calon, user memilih dengan telinga).
 5. **Render panjang selalu dipecah** per 1 menit dan bisa dilanjutkan ("kalau prosesnya lama dibagi saja agar jika terbatal aman"). Render **menit pertama dulu**, kirim ke user, baru sisanya.
 6. **Cepat jadi lebih penting dari sempurna**: satu putaran cek yang jujur, perbaiki yang jelas rusak.
-7. Pesan ke user singkat, bahasa Indonesia. Isi video bahasa Inggris (penonton AS).
+7. Pesan ke user singkat, bahasa Indonesia. Isi video bahasa Inggris (penonton AS) — kecuali mode Serial Indonesia.
+8. **Jangan render bila user bilang jangan** ("jangan lakukan render apapun"); cukup siapkan sampai stills/QA data. Render lama boleh dihentikan bila user minta ("kalau lama nanti saja").
+9. **Serial Indonesia**: tiap episode diakhiri pilihan A/B (A = tamat, B = lanjut, **tidak pernah ditulis**; dijawab lewat animasi episode berikutnya), CTA halus ("jangan alay"), SFX cocok dengan tiap adegan, tokoh punya ciri khas lewat aksesori saja, hook ≤ 3 dtk + open loop, 45–55 dtk. Kisah nyata: hanya narator (tidak mengarang ucapan orang nyata), min. 2 sumber, tanpa jumpscare.
+10. Kunci API (ElevenLabs dll.) hanya di `<proyek>/.env`; jangan pernah diulang di chat atau log.
 
 ## Peta skill
 | File | Isi |
@@ -46,6 +51,10 @@ Pilih di `format.ts` folder video (`W`, `H`); kartu tokoh, tinta, lensa, salju, 
 | `templates/branding/profil.ts` | foto profil kanal (topeng di depan bulan) |
 | `scripts/lembar_kontak.py`, `scripts/qa_video.py` | lembar kontak per shot; pengecekan otomatis video jadi |
 | `examples/ep1/` | `ep1.json` (naskah), `sfx_ep1.py` (isyarat efek suara), `klip_ep1.py` (motion-graphics), `youtube.txt` |
+| `references/serial-indonesia.md` | **mode Serial Indonesia**: urutan wajib, naskah & A/B, suara (TTS Cepat / ElevenLabs), caption sinkron, skema adegan JSON, ciri khas tokoh, katalog SFX, render, unggah, jebakan |
+| `templates/remotion/serial_mesin/` | mesin serial data-driven (adegan JSON, hook kuning, stempel, letusan/gas, HP berisi foto, kartu A/B + CTA, caption frasa, tokoh beraksesori) |
+| `templates/serial_id/` | `suara/suara_tts_cepat.py`, `suara/suara_elevenlabs.py` + `elevenlabs.py`, `suara/kata.py` (waktu kata whisper), `suara/mix.py`, `suara/sfx_umum_horor.py`, `suara/sfx_umum_kisah.py`, `mk_ep.sh`, `render_ep.sh`, `kontak.py` |
+| `examples/serial_id/` | `petaka_gunung_ep2/` (horor multi-tokoh, jumpscare, A/B) dan `kisah_nyata_ep13/` (narator, letusan, stempel, deskripsi unggah) |
 
 ## Alur kerja
 
@@ -84,6 +93,17 @@ Tulis isyarat efek (`examples/ep1/sfx_ep1.py` sebagai pola), lalu `python templa
 3. `python scripts/qa_video.py video/<nama>.mp4 <ep>/timeline.json` + `lembar_kontak.py video ...` → baca hasilnya sendiri; layar hitam/diam yang wajar ada di `references/render-qa.md`.
 4. `python templates/suara/srt.py <ep>`, tulis `youtube.txt` (pola `examples/ep1/youtube.txt`), kirim video + laporan pengecekan singkat.
 
+## Mode Serial Indonesia (ringkas — detail di `references/serial-indonesia.md`)
+```
+$SUARA_PY suara/suara_tts_cepat.py naskah/epN.json epN   # atau suara_elevenlabs.py
+$SUARA_PY suara/kata.py epN                              # WAJIB sesudah suara (waktu kata caption)
+$SUARA_PY suara/mix.py epN epN/sfx_epN.py --lufs -14
+./mk_ep.sh N                                              # REMO_DIR, SERI, COMP
+npx remotion still src/<seri>-index.ts <COMP>N out/x.jpg --frame=F --gl=angle   # cek
+./render_ep.sh N                                          # hanya bila user setuju; KN_CONC=2 bila gagal
+```
+Episode baru = `naskah/epN.json` + `adegan/epN.json` + `epN/sfx_epN.py`; mesin tidak diubah. Sampul: still dengan `--props='{"sampul":true}'`.
+
 ## Format potret (Shorts / Reels / TikTok)
 - **Naskah**: 120–220 kata, satu ketegangan saja; hook di 2 detik pertama (kalimat paling seram dulu, mis. "He only follows you if you look at him."), tanpa kartu judul 5 dtk (cukup 1,5 dtk atau langsung adegan), bab dihapus atau 1 kartu; akhir menggantung → ajakan "Part 2". Bisa juga memotong episode panjang jadi 3–4 Shorts (cerita yang sama, naskah dipadatkan).
 - **Video**: salin template, set `format.ts` ke `W = 1080; H = 1920`, daftarkan Composition `width={1080} height={1920}`. Bingkai lebih sempit (FOV horizontal ±23°): satu tokoh per shot atau dua tokoh rapat (≤ 1 m), MCU `dist 2.6–3.2`, lebar `dist 7–10`; jaga wajah di sepertiga atas–tengah karena caption di ±26 % dari bawah dan tombol aplikasi di kanan & bawah.
@@ -115,3 +135,8 @@ Tulis isyarat efek (`examples/ep1/sfx_ep1.py` sebagai pola), lalu `python templa
 | Render batch hilang diam-diam | proses dimulai dari shell panggilan | `Start-Process` di PowerShell; cek proses ganda dulu |
 | Still gagal "Webpack configuration schema" | `scripts/stills.mjs` di Node 24 | `npx remotion still ... --gl=angle` |
 | Psikopat tidak terlihat | tiang kanopi di antara kamera dan tokoh | kamera ke sisi kosong; cek still |
+| Subtitle "aneh" (loncat, tidak sinkron) | jendela 5 kata bergeser + waktu tebakan huruf | `kata.py` + halaman frasa tetap di `serial_mesin` |
+| Klip TTS Cepat diawali 1 dtk hening | bawaan engine | `TRIM` silenceremove RMS -35 dB di `suara_tts_cepat.py` |
+| Render potret keluar separuh | Chrome kehabisan memori | `KN_CONC=2`; `render_ep.sh` berhenti bila potongan hilang |
+| Tokoh-tokoh tampak kembar | rupa hanya beda warna | aksesori `topi`/`sanggul`/`selendang`/`ransel`/`kumis`/`jenggot`/`dasi` (serial_mesin) |
+| Lebih banyak jebakan serial Indonesia | | tabel di `references/serial-indonesia.md` |

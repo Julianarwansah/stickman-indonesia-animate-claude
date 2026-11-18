@@ -10,6 +10,9 @@ Skill Claude Code **`animasi-horor-kartun`**: membuat video animasi horor kartun
 |---|---|---|
 | ![16:9](docs/cuplikan_16x9.jpg) | ![potret](docs/cuplikan_potret.jpg) | ![profil](docs/foto_profil.png) |
 
+## Baru: mode Serial Indonesia
+Shorts 9:16 bahasa Indonesia (PETAKA GUNUNG, KISAH NYATA NUSANTARA): mesin adegan JSON `templates/remotion/serial_mesin`, suara ElevenLabs atau Aplikasi TTS Cepat lokal, caption per frasa yang sinkron (faster-whisper), kartu pilihan A/B, tokoh beraksesori. Panduan: `skills/animasi-horor-kartun/references/serial-indonesia.md`.
+
 ## Isi skill
 | Bagian | Isi |
 |---|---|

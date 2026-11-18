@@ -1,0 +1,252 @@
+{
+ "ep": 13,
+ "seri": "KISAH NYATA NUSANTARA",
+ "stempel": "KISAH NYATA",
+ "kartuBawah": "Kisah nyata berikutnya... kamu yang pilih.",
+ "judul": "Upacara Seratus Tahun",
+ "hook": "Upacara 100 tahun sekali, gunungnya meletus",
+ "lampu": false,
+ "pilihan": {
+  "A": "Upacara dilanjutkan",
+  "B": "Dihentikan, semua mengungsi"
+ },
+ "api": [
+  [
+   -54.5,
+   -3.0
+  ]
+ ],
+ "tokoh": {
+  "K": {
+   "rupa": "PEMANGKU",
+   "jalur": [
+    {
+     "at": 0,
+     "p": [
+      -54.0,
+      -1.4
+     ],
+     "mode": "diri",
+     "w": "datar"
+    },
+    {
+     "at": "a04",
+     "w": "takut"
+    },
+    {
+     "at": "a06",
+     "vis": false
+    },
+    {
+     "at": "a07",
+     "vis": true,
+     "w": "sedih"
+    }
+   ]
+  },
+  "U1": {
+   "rupa": "UMAT",
+   "jalur": [
+    {
+     "at": 0,
+     "p": [
+      -55.8,
+      -1.9
+     ],
+     "mode": "diri",
+     "w": "datar"
+    },
+    {
+     "at": "a04",
+     "w": "takut"
+    },
+    {
+     "at": "a06",
+     "vis": false
+    },
+    {
+     "at": "a07",
+     "vis": true,
+     "w": "sedih"
+    }
+   ]
+  },
+  "U2": {
+   "rupa": "PETANI",
+   "jalur": [
+    {
+     "at": 0,
+     "p": [
+      -52.9,
+      -2.2
+     ],
+     "mode": "diri",
+     "w": "datar"
+    },
+    {
+     "at": "a04",
+     "w": "takut"
+    },
+    {
+     "at": "a06",
+     "vis": false
+    },
+    {
+     "at": "a07",
+     "vis": true,
+     "w": "sedih"
+    }
+   ]
+  },
+  "U3": {
+   "rupa": "PETANI_W",
+   "jalur": [
+    {
+     "at": 0,
+     "p": [
+      -56.6,
+      -3.4
+     ],
+     "mode": "diri",
+     "w": "datar"
+    },
+    {
+     "at": "a04",
+     "w": "takut"
+    },
+    {
+     "at": "a06",
+     "vis": false
+    },
+    {
+     "at": "a07",
+     "vis": true,
+     "w": "sedih"
+    }
+   ]
+  }
+ },
+ "scenes": {
+  "hook": {
+   "subj": [
+    -54.5,
+    0,
+    -3
+   ],
+   "az": 150,
+   "dist": 12,
+   "camH": 4.0,
+   "lookH": 2.0,
+   "push": 0.002,
+   "letusan": 0.8,
+   "snow": 0.6,
+   "dof": 2
+  },
+  "pura": {
+   "subj": [
+    -54.5,
+    0,
+    -3
+   ],
+   "az": 180,
+   "dist": 8,
+   "camH": 2.2,
+   "lookH": 1.2,
+   "push": 0.002,
+   "snow": 0.5,
+   "dof": 4
+  },
+  "pemangku": {
+   "subj": "K",
+   "az": 180,
+   "dist": 2.3,
+   "camH": 1.4,
+   "lookH": 1.42,
+   "push": 0.003,
+   "hide": [
+    "U1",
+    "U2",
+    "U3"
+   ],
+   "snow": 0.4,
+   "dof": 13
+  },
+  "letusan": {
+   "subj": [
+    -54.5,
+    0,
+    -30
+   ],
+   "az": 180,
+   "dist": 22,
+   "camH": 2.0,
+   "lookH": 9.0,
+   "letusan": 1,
+   "snow": 0.6,
+   "dof": 1,
+   "kick": 1.2,
+   "overlay": "kedip"
+  },
+  "gelap": {
+   "subj": [
+    -54.5,
+    0,
+    -3
+   ],
+   "az": 180,
+   "dist": 7,
+   "camH": 1.8,
+   "lookH": 1.3,
+   "letusan": 0.6,
+   "snow": 1,
+   "dof": 4,
+   "overlay": "kedip",
+   "hand": 1.5
+  },
+  "desa_kosong": {
+   "subj": [
+    143,
+    0,
+    0
+   ],
+   "az": 205,
+   "dist": 11,
+   "camH": 2.6,
+   "lookH": 1.2,
+   "push": 0.002,
+   "letusan": 0.4,
+   "snow": 1,
+   "dof": 3
+  },
+  "pura_pagi": {
+   "subj": [
+    -54.5,
+    0,
+    -3
+   ],
+   "az": 180,
+   "dist": 8,
+   "camH": 2.2,
+   "lookH": 1.2,
+   "push": 0.0015,
+   "light": "golden",
+   "snow": 0.6,
+   "dof": 4
+  },
+  "stempel": {
+   "subj": [
+    -54.5,
+    0,
+    -3
+   ],
+   "az": 150,
+   "dist": 12,
+   "camH": 4.0,
+   "lookH": 2.0,
+   "push": 0.0015,
+   "light": "golden",
+   "snow": 0.6,
+   "dof": 2
+  }
+ }
+}

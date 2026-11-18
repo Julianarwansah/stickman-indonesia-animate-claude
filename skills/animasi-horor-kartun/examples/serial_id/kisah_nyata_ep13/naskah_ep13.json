@@ -1,0 +1,63 @@
+{
+ "judul": "Kisah Nyata Nusantara Ep.13 — Upacara Seratus Tahun",
+ "baris": [
+  {
+   "id": "a01",
+   "scene": "hook",
+   "text": "Upacara yang hanya digelar sekali dalam seratus tahun... dan gunungnya meletus tepat di tengahnya."
+  },
+  {
+   "id": "a02",
+   "scene": "pura",
+   "text": "Maret 1963. Umat Hindu Bali berkumpul di Pura Besakih, di lereng Gunung Agung.",
+   "mg": "cap:Pura Besakih — Maret 1963"
+  },
+  {
+   "id": "a03",
+   "scene": "pemangku",
+   "text": "Gunung itu sudah bergemuruh berminggu-minggu sebelumnya. Tapi upacara Eka Dasa Rudra tetap dilanjutkan.",
+   "jeda": 0.4
+  },
+  {
+   "id": "a04",
+   "scene": "letusan",
+   "text": "Tujuh belas Maret, hari terakhir upacara, Gunung Agung mencapai puncak letusannya.",
+   "jeda": 0.5
+  },
+  {
+   "id": "a05",
+   "scene": "gelap",
+   "text": "Langit Bali menjadi gelap. Matahari tidak terlihat.",
+   "jeda": 0.6
+  },
+  {
+   "id": "a06",
+   "scene": "desa_kosong",
+   "text": "Lebih dari seribu orang meninggal. Letusan terbesar di Indonesia pada abad kedua puluh."
+  },
+  {
+   "id": "a07",
+   "scene": "pura_pagi",
+   "text": "Rangkaian upacara itu baru benar-benar dituntaskan enam belas tahun kemudian, pada 1979."
+  },
+  {
+   "id": "a08",
+   "scene": "stempel",
+   "text": "Ini kisah nyata. Pura Besakih, Bali.",
+   "mg": "stempel:Besakih, Bali · 1963",
+   "jeda": 0.4
+  },
+  {
+   "id": "p01",
+   "scene": "pilihan",
+   "text": "Kalau kamu di sana, pilih mana? A... upacara dilanjutkan. B... upacara dihentikan, semua mengungsi. Tulis A atau B di komentar.",
+   "jeda": 0.3
+  },
+  {
+   "id": "p02",
+   "scene": "pilihan",
+   "text": "Kisah nyata mana yang ingin kamu tahu selanjutnya? Subscribe, dan tulis di komentar.",
+   "jeda": 2.2
+  }
+ ]
+}
