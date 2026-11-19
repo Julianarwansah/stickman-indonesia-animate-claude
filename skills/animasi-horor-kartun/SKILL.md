@@ -30,7 +30,7 @@ Pilih di `format.ts` folder video (`W`, `H`); kartu tokoh, tinta, lensa, salju, 
 6. **Cepat jadi lebih penting dari sempurna**: satu putaran cek yang jujur, perbaiki yang jelas rusak.
 7. Pesan ke user singkat, bahasa Indonesia. Isi video bahasa Inggris (penonton AS) — kecuali mode Serial Indonesia.
 8. **Jangan render bila user bilang jangan** ("jangan lakukan render apapun"); cukup siapkan sampai stills/QA data. Render lama boleh dihentikan bila user minta ("kalau lama nanti saja").
-9. **Serial Indonesia**: tiap episode diakhiri pilihan A/B (A = tamat, B = lanjut, **tidak pernah ditulis**; dijawab lewat animasi episode berikutnya), CTA halus ("jangan alay"), SFX cocok dengan tiap adegan, tokoh punya ciri khas lewat aksesori saja, hook ≤ 3 dtk + open loop, 45–55 dtk. Kisah nyata: hanya narator (tidak mengarang ucapan orang nyata), min. 2 sumber, tanpa jumpscare. **Pemeran & latar per cerita**: tiap cerita punya pemeran sendiri (`pemeran` di adegan JSON, lembar `dokumen/pemeran_epN.md`) kecuali tokoh utama serial yang dikunci; latar sesuai tempat & zaman (`hutan`, `tanah`, `desa`, `gunungApi`, set baru di `latar_id.ts`) — jangan memakai tempat yang salah.
+9. **Serial Indonesia**: tiap episode diakhiri pilihan A/B (A = tamat — mis. belok kiri lalu tertabrak truk, selesai; B = lanjut — menghindari truk, selamat; **tidak pernah ditulis**; akibatnya dijawab lewat ADEGAN ANIMASI di awal episode berikutnya, bukan teks), CTA halus ("jangan alay"), SFX cocok dengan tiap adegan, tokoh punya ciri khas lewat aksesori saja, hook ≤ 3 dtk + open loop, 45–55 dtk. Kisah nyata: hanya narator (tidak mengarang ucapan orang nyata), min. 2 sumber, tanpa jumpscare. **Pemeran & latar per cerita**: tiap cerita punya pemeran sendiri (`pemeran` di adegan JSON, lembar `dokumen/pemeran_epN.md`) kecuali tokoh utama serial yang dikunci; latar sesuai tempat & zaman (`hutan`, `tanah`, `desa`, `gunungApi`, set baru di `latar_id.ts`) — jangan memakai tempat yang salah.
 10. Kunci API (ElevenLabs dll.) hanya di `<proyek>/.env`; jangan pernah diulang di chat atau log.
 
 ## Peta skill
@@ -143,4 +143,5 @@ Episode baru = `naskah/epN.json` + `adegan/epN.json` + `epN/sfx_epN.py`; mesin t
 | Tokoh-tokoh tampak kembar | rupa hanya beda warna | aksesori `topi`/`sanggul`/`selendang`/`ransel`/`kumis`/`jenggot`/`dasi` (serial_mesin) |
 | Latar tidak cocok cerita Indonesia | dunia hanya rumah barat + pinus | `latar_id.ts` (gunung api, pura, rumah kayu, sawah) + `desa`/`gunungApi` di ep.json |
 | Tokoh berdiri kaku satu shot penuh | tidak ada akting otomatis | `akting.ts`: gerak sesuai emosi, menoleh ke pembicara, tersentak + kamera punch-in/guncang/ikut pembicara |
+| "Kurang serem" / benda mirip mainan di video 3D | warna hangat, sosok guntingan putih, kain/api/tangan kartun | `references/horor-seram.md` skill animasi-3d-semua-genre (grade horor, siluet, satu momen kaget) |
 | Lebih banyak jebakan serial Indonesia | | tabel di `references/serial-indonesia.md` |

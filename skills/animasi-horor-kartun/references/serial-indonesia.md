@@ -55,6 +55,11 @@ Render hanya setelah user setuju. Bila user bilang "jangan render", berhenti di 
   cukup "Jawabannya... di episode berikutnya."
 - Episode berikutnya dibuka dengan **animasi** hasil pilihan terbanyak ("Kebanyakan dari kalian memilih B..."), bukan teks.
 - Episode boleh dibuat lebih dulu mengikuti jalur B; kalau voting dimenangkan A, episode sesudahnya dibuat ulang.
+- Contoh aturan dari user: A = belok kiri → tertabrak truk → **selesai**; B = menghindari truk → selamat → **lanjut**.
+  Akibat pilihan **dijelaskan dengan animasi** (truk menghantam / tokoh melompat menghindar), bukan teks. Berlaku tiap episode.
+  Contoh nyata: PEMANDI JENAZAH Ep11 B "Kubuka pintu kamar mandi" → Ep12 dibuka dengan pintu yang membuka pelan, A/B baru
+  "Kubuang kain kecil itu" (tamat) / "Kubawa ke lemari masjid" (lanjut). Bila A menang → satu episode penutup yang
+  menganimasikan akhir tamatnya.
 - Kisah nyata: A/B = "kalau kamu di sana, pilih mana?" (tidak mengubah sejarah).
 
 ### CTA (aturan user: "jangan alay")
@@ -256,6 +261,8 @@ Unggah/jadwal hanya bila user meminta.
 ## Jebakan serial Indonesia
 | Gejala | Penyebab | Perbaikan |
 |---|---|---|
+| "Kurang serem, ada gambar aneh" (Ep11 PEMANDI JENAZAH) | benda mirip mainan (kain plastik melayang, api kertas, sosok kapsul putih, tangan kayu), warna hangat nyaman | checklist `references/horor-seram.md` di skill animasi-3d-semua-genre: grade horor teal + grain, sosok siluet, satu momen kaget dengan hening 0,5 dtk, buang benda yang terlihat mainan |
+| Bola silau putih di air/ubin | specular lampu titik di permukaan clearcoat + bloom | clearcoat ≤0,35, lampu pengisi di bawah air, sembunyikan bohlam di view pantulan |
 | Nama/tanggal terbelah di caption ("UPACARA EKA" / "DASA RUDRA") | potong buta tiap 3 kata | unit makna di `caption.ts` (sudah) |
 | Kuning berkedip pindah-pindah | kuning = kata aktif | kuning = kata kunci tetap (sudah) |
 | Caption menutupi wajah | posisi tetap 26 % dari bawah | 22 % + `capPos: "atas"` per scene; wajah di 15–55 % tinggi |
