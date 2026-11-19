@@ -54,7 +54,10 @@ Render hanya setelah user setuju. Bila user bilang "jangan render", berhenti di 
 - Rahasia penulisan: **A = cerita tamat, B = cerita berlanjut**. Kartu dan narasi **tidak boleh** menyebut tamat/lanjut —
   cukup "Jawabannya... di episode berikutnya."
 - Episode berikutnya dibuka dengan **animasi** hasil pilihan terbanyak ("Kebanyakan dari kalian memilih B..."), bukan teks.
-- Episode boleh dibuat lebih dulu mengikuti jalur B; kalau voting dimenangkan A, episode sesudahnya dibuat ulang.
+- **REVISI USER (19 Nov 2026): A/B hanya gimmick, tidak mengikuti komentar asli.** Episode berikutnya dibuka dengan
+  DUA akibat yang dianimasikan: (1) cabang A ±15 dtk — "Kalau aku memilih X, beginilah akhirnya…" → tokoh mati → cap
+  merah TAMAT + gong; (2) efek putar balik VHS ±1 dtk; (3) cabang B — "Tapi malam itu aku tidak…" → cerita lanjut →
+  kartu A/B baru. Tidak perlu menunggu voting; satu episode per nomor.
 - Contoh aturan dari user: A = belok kiri → tertabrak truk → **selesai**; B = menghindari truk → selamat → **lanjut**.
   Akibat pilihan **dijelaskan dengan animasi** (truk menghantam / tokoh melompat menghindar), bukan teks. Berlaku tiap episode.
   Contoh nyata: PEMANDI JENAZAH Ep11 B "Kubuka pintu kamar mandi" → Ep12 dibuka dengan pintu yang membuka pelan, A/B baru
