@@ -10,8 +10,17 @@ from scipy.signal import butter, sosfilt, fftconvolve
 
 SR = 44100
 HERE = os.path.dirname(os.path.abspath(__file__))
-CACHE = os.path.abspath(os.path.join(HERE, '..', '..', 'serial animasi kisah nusantara', 'animasi3d', 'suara', 'sfx_cache'))
-CC0 = os.path.abspath(os.path.join(HERE, '..', '..', 'aplikasi tts cepat', 'assets', 'sfx'))
+# lokasi rekaman: variabel lingkungan SFX_CACHE / SFX_CC0, kalau tidak ada -> relatif proyek serial, lalu folder tetap di Mac Julian
+def _cari(env, *calon):
+    if os.environ.get(env): return os.environ[env]
+    for c in calon:
+        if os.path.isdir(c): return c
+    return calon[0]
+_BASE = '/Users/mac/Documents/serial animasi'
+CACHE = _cari('SFX_CACHE', os.path.abspath(os.path.join(HERE, '..', '..', 'serial animasi kisah nusantara', 'animasi3d', 'suara', 'sfx_cache')),
+              os.path.join(_BASE, 'serial animasi kisah nusantara', 'animasi3d', 'suara', 'sfx_cache'))
+CC0 = _cari('SFX_CC0', os.path.abspath(os.path.join(HERE, '..', '..', 'aplikasi tts cepat', 'assets', 'sfx')),
+            os.path.join(_BASE, 'aplikasi tts cepat', 'assets', 'sfx'))
 _r = np.random.default_rng(5)
 _mem = {}
 
